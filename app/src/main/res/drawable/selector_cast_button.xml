@@ -16,6 +16,6 @@
 
     <item
         android:drawable="@drawable/ic_cast_24dp"
-        android:tint="#808080"/> <!-- todo: replace with a fitting color -->
+        android:tint="?attr/colorOnPrimary"/> <!-- todo: replace with a fitting color -->
 
 </selector>

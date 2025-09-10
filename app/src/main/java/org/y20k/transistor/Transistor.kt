@@ -35,9 +35,14 @@ class Transistor: Application () {
         super.onCreate()
         Log.v(TAG, "Transistor application started.")
         initPreferences()
+
+        // apply dynamic colors, if user enabled it
+        AppThemeHelper.setupDynamicColors(this)
+
         // set Dark / Light theme state
         AppThemeHelper.setTheme(PreferencesHelper.loadThemeSelection())
     }
+
 
 
     /* Implements onTerminate */

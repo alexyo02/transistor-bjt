@@ -24,7 +24,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
@@ -40,7 +39,8 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.contains
-import com.google.android.material.textview.MaterialTextView
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.color.DynamicColors
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -51,6 +51,7 @@ import org.y20k.transistor.helpers.BackupHelper
 import org.y20k.transistor.helpers.FileHelper
 import org.y20k.transistor.helpers.NetworkHelper
 import org.y20k.transistor.helpers.PreferencesHelper
+import org.y20k.transistor.helpers.UiHelper
 
 
 /*
@@ -62,19 +63,23 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
     private val TAG: String = SettingsFragment::class.java.simpleName
 
 
+    /* Interfaces for list events */
+    interface SettingsListDragListener {
+        fun onSettingsListDragStateChanged(newState: Int)
+    }
+
+
+    /* Main class variables */
+    private var settingsListDragListener: SettingsListDragListener? = null
+
+
     /* Overrides onViewCreated from PreferenceFragmentCompat */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // set up top bar button
-        val topbarBackButton: ImageButton = view.findViewById(R.id.arrow_back)
-        topbarBackButton.setOnClickListener {
-            view.findNavController().navigateUp()
-        }
-        // set up top bar text
-        val topbarTitleView: MaterialTextView = view.findViewById(R.id.topbar_title)
-        topbarTitleView.text = getText(R.string.fragment_settings_title)
-        // set the background color
-        view.setBackgroundColor(resources.getColor(R.color.app_window_background, null))
+
+        // set up list drag listener
+        setUpDragListener()
+
         // set up edge to edge display
         setupEdgeToEdge(view)
     }
@@ -100,12 +105,30 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
             if (preference is ListPreference) {
                 val index: Int = preference.entryValues.indexOf(newValue)
                 preferenceThemeSelection.summary = "${getString(R.string.pref_theme_selection_summary)} ${preference.entries[index]}"
-                return@setOnPreferenceChangeListener true
+                listView.findNavController().navigate(R.id.player_destination)
+                true
             } else {
-                return@setOnPreferenceChangeListener false
+                false
             }
         }
 
+        // set up "Dynamic Colors" preference (Android 12+ only)
+        val preferenceEnableDynamicColors: SwitchPreferenceCompat = SwitchPreferenceCompat(activity as Context)
+        preferenceEnableDynamicColors.title = getString(R.string.pref_dynamic_colors_title)
+        preferenceEnableDynamicColors.setIcon(R.drawable.ic_color_palette_24dp)
+        preferenceEnableDynamicColors.key = Keys.PREF_DYNAMIC_COLORS
+        preferenceEnableDynamicColors.summaryOn = getString(R.string.pref_dynamic_colors_summary_enabled)
+        preferenceEnableDynamicColors.summaryOff = getString(R.string.pref_dynamic_colors_summary_disabled)
+        preferenceEnableDynamicColors.isVisible = DynamicColors.isDynamicColorAvailable()
+        preferenceEnableDynamicColors.setDefaultValue(PreferencesHelper.loadDynamicColorsEnabled())
+        preferenceEnableDynamicColors.setOnPreferenceChangeListener { preference, newValue ->
+            val dynamicColorsEnabled = newValue as Boolean
+            PreferencesHelper.saveDynamicColorsEnabled(dynamicColorsEnabled) // todo check if necessary
+            AppThemeHelper.setupDynamicColors(requireActivity().application)
+            requireActivity().recreate()
+            listView.findNavController().navigate(R.id.player_destination)
+            true
+        }
 
         // set up "Tap Anywhere" preference
         val preferenceEnableTapAnywherePlayback: SwitchPreferenceCompat = SwitchPreferenceCompat(activity as Context)
@@ -116,7 +139,6 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         preferenceEnableTapAnywherePlayback.summaryOff = getString(R.string.pref_tap_anywhere_playback_summary_disabled)
         preferenceEnableTapAnywherePlayback.setDefaultValue(PreferencesHelper.loadTapAnyWherePlayback())
 
-
         // set up "Update Station Images" preference
         val preferenceUpdateStationImages: Preference = Preference(activity as Context)
         preferenceUpdateStationImages.title = getString(R.string.pref_update_station_images_title)
@@ -125,9 +147,8 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         preferenceUpdateStationImages.setOnPreferenceClickListener {
             // show dialog
             YesNoDialog(this).show(context = activity as Context, type = Keys.DIALOG_UPDATE_STATION_IMAGES, message = R.string.dialog_yes_no_message_update_station_images, yesButton = R.string.dialog_yes_no_positive_button_update_covers)
-            return@setOnPreferenceClickListener true
+            true
         }
-
 
 //        // set up "Update Stations" preference
 //        val preferenceUpdateCollection: Preference = Preference(activity as Context)
@@ -137,9 +158,8 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
 //        preferenceUpdateCollection.setOnPreferenceClickListener {
 //            // show dialog
 //            YesNoDialog(this).show(context = activity as Context, type = Keys.DIALOG_UPDATE_COLLECTION, message = R.string.dialog_yes_no_message_update_collection, yesButton = R.string.dialog_yes_no_positive_button_update_collection)
-//            return@setOnPreferenceClickListener true
+//            true
 //        }
-
 
         // set up "M3U Export" preference
         val preferenceM3uExport: Preference = Preference(activity as Context)
@@ -148,9 +168,8 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         preferenceM3uExport.summary = getString(R.string.pref_m3u_export_summary)
         preferenceM3uExport.setOnPreferenceClickListener {
             openSaveM3uDialog()
-            return@setOnPreferenceClickListener true
+            true
         }
-
 
         // set up "Backup Stations" preference
         val preferenceBackupCollection: Preference = Preference(activity as Context)
@@ -159,9 +178,8 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         preferenceBackupCollection.summary = getString(R.string.pref_backup_summary)
         preferenceBackupCollection.setOnPreferenceClickListener {
             openBackupCollectionDialog()
-            return@setOnPreferenceClickListener true
+            true
         }
-
 
         // set up "Restore Stations" preference
         val preferenceRestoreCollection: Preference = Preference(activity as Context)
@@ -170,9 +188,8 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         preferenceRestoreCollection.summary = getString(R.string.pref_restore_summary)
         preferenceRestoreCollection.setOnPreferenceClickListener {
             openRestoreCollectionDialog()
-            return@setOnPreferenceClickListener true
+            true
         }
-
 
         // set up "Buffer Size" preference
         val preferenceBufferSize: SwitchPreferenceCompat = SwitchPreferenceCompat(activity as Context)
@@ -183,7 +200,6 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         preferenceBufferSize.summaryOff = getString(R.string.pref_buffer_size_summary_disabled)
         preferenceBufferSize.setDefaultValue(PreferencesHelper.loadLargeBufferSize())
 
-
         // set up "Edit Stream Address" preference
         val preferenceEnableEditingStreamUri: SwitchPreferenceCompat = SwitchPreferenceCompat(activity as Context)
         preferenceEnableEditingStreamUri.title = getString(R.string.pref_edit_station_stream_title)
@@ -192,7 +208,6 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         preferenceEnableEditingStreamUri.summaryOn = getString(R.string.pref_edit_station_stream_summary_enabled)
         preferenceEnableEditingStreamUri.summaryOff = getString(R.string.pref_edit_station_stream_summary_disabled)
         preferenceEnableEditingStreamUri.setDefaultValue(PreferencesHelper.loadEditStreamUrisEnabled())
-
 
         // set up "Edit Stations" preference
         val preferenceEnableEditingGeneral: SwitchPreferenceCompat = SwitchPreferenceCompat(activity as Context)
@@ -212,9 +227,8 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
                     preferenceEnableEditingStreamUri.isChecked = false
                 }
             }
-            return@setOnPreferenceChangeListener true
+            true
         }
-
 
         // set up "App Version" preference
         val preferenceAppVersion: Preference = Preference(context)
@@ -230,7 +244,7 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
                 // since API 33 (TIRAMISU) the OS displays its own notification when content is copied to the clipboard
                 Toast.makeText(activity as Context, R.string.toast_message_copied_to_clipboard, Toast.LENGTH_LONG).show()
             }
-            return@setOnPreferenceClickListener true
+            true
         }
 
 
@@ -238,6 +252,7 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         val preferenceCategoryGeneral: PreferenceCategory = PreferenceCategory(activity as Context)
         preferenceCategoryGeneral.title = getString(R.string.pref_general_title)
         preferenceCategoryGeneral.contains(preferenceThemeSelection)
+        preferenceCategoryGeneral.contains(preferenceEnableDynamicColors)
         preferenceCategoryGeneral.contains(preferenceEnableTapAnywherePlayback)
 
         val preferenceCategoryMaintenance: PreferenceCategory = PreferenceCategory(activity as Context)
@@ -262,6 +277,7 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         // setup preference screen
         screen.addPreference(preferenceCategoryGeneral)
         screen.addPreference(preferenceThemeSelection)
+        screen.addPreference(preferenceEnableDynamicColors)
         screen.addPreference(preferenceEnableTapAnywherePlayback)
         screen.addPreference(preferenceCategoryMaintenance)
         screen.addPreference(preferenceUpdateStationImages)
@@ -303,6 +319,11 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
 
         }
 
+    }
+
+    /* Sets the list drag listener */
+    fun setListDragListener(listener: SettingsListDragListener) {
+        settingsListDragListener = listener
     }
 
 
@@ -385,9 +406,7 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         if (NetworkHelper.isConnectedToNetwork(activity as Context)) {
             Toast.makeText(activity as Context, R.string.toast_message_updating_station_images, Toast.LENGTH_LONG).show()
             // update collection in player screen
-            val bundle: Bundle = bundleOf(
-                Keys.ARG_UPDATE_IMAGES to true
-            )
+            val bundle: Bundle = bundleOf(Keys.ARG_UPDATE_IMAGES to true)
             this.findNavController().navigate(R.id.player_destination, bundle)
         } else {
             ErrorDialog().show(activity as Context, R.string.dialog_error_title_no_network, R.string.dialog_error_message_no_network)
@@ -410,8 +429,6 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
             Toast.makeText(activity as Context, R.string.toast_message_install_file_helper, Toast.LENGTH_LONG).show()
         }
     }
-
-
 
 
     /* Opens up a file picker to select the backup location */
@@ -448,18 +465,45 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
     }
 
 
+    /* Creates a listener that detects when the list of preferences is being dragged */
+    private fun setUpDragListener() {
+        // add scroll listener to detect when list is being dragged
+        val preferencesList: RecyclerView = listView
+        preferencesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                settingsListDragListener?.onSettingsListDragStateChanged(newState)
+            }
+        })
+        // set up list drag listener
+        val mainActivity = activity as? BaseMainActivity
+        if (mainActivity != null) {
+            setListDragListener(mainActivity.layout as SettingsListDragListener)
+        }
+    }
+
+
     /* Sets up margins/paddings for edge to edge view - for API 35 and above */
     private fun setupEdgeToEdge(view: View) {
+        val preferencesList: RecyclerView = listView
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
                 // get measurements for status and navigation bar
-                val systemBars =
-                    insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
-                // apply measurements to the main view
-                view.updatePadding(bottom = systemBars.bottom)
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+
+                // apply measurements to the list to make room for the player
+                preferencesList.updatePadding(
+                    bottom = systemBars.bottom + ((Keys.PLAYER_HEIGHT + Keys.PLAYER_BOTTOM_MARGIN) * UiHelper.getDensityScalingFactor(requireContext())).toInt()
+                )
+
                 // return the insets
                 insets
             }
+        } else {
+            // make room for the player
+            preferencesList.updatePadding(
+                bottom = ((Keys.PLAYER_HEIGHT + Keys.PLAYER_BOTTOM_MARGIN) * UiHelper.getDensityScalingFactor(requireContext())).toInt()
+            )
         }
     }
 

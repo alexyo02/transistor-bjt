@@ -15,7 +15,7 @@
                 <path
                     android:name="path"
                     android:pathData="M 280 280 L 680 280 L 680 680 L 280 680 L 280 280 M 320 320 L 320 640 L 640 640 L 640 320 L 320 320"
-                    android:fillColor="@color/player_play_pause_icon" />
+                    android:fillColor="?attr/colorOnPrimary" />
             </group>
         </vector>
     </aapt:attr>

@@ -110,7 +110,7 @@ class FindStationDialog (private val context: Context, private val listener: Fin
         directInputCheck = DirectInputCheck(this)
 
         // prepare dialog builder
-        val builder: MaterialAlertDialogBuilder = MaterialAlertDialogBuilder(context, R.style.AlertDialogTheme)
+        val builder: MaterialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
 
         // set title
         builder.setTitle(R.string.dialog_find_station_title)

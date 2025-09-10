@@ -34,6 +34,7 @@ object Keys {
     const val SLEEP_TIMER_DURATION: Long = 900000L          // 15 minutes in  milliseconds
     const val SLEEP_TIMER_INTERVAL: Long = 1000L            // 1 second in milliseconds
     const val RECONNECTION_WAIT_INTERVAL: Long = 500L       // 5 seconds in milliseconds
+    const val DEFAULT_TRANSITION_ANIMATION_DURATION: Long = 100L               // 100 milliseconds
 
     // ranges
     val PLAYBACK_SPEEDS = arrayOf(1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f)
@@ -100,6 +101,7 @@ object Keys {
     const val PREF_PLAYER_METADATA_HISTORY: String = "PLAYER_METADATA_HISTORY"
     const val PREF_PLAYER_STATE_SLEEP_TIMER_RUNNING: String = "PLAYER_STATE_SLEEP_TIMER_RUNNING"
     const val PREF_TAP_ANYWHERE_PLAYBACK: String = "TAP_ANYWHERE_PLAYBACK"
+    const val PREF_DYNAMIC_COLORS: String = "DYNAMIC_COLORS"
     const val PREF_LARGE_BUFFER_SIZE: String = "LARGE_BUFFER_SIZE"
     const val PREF_EDIT_STATIONS: String = "EDIT_STATIONS"
     const val PREF_EDIT_STREAMS_URIS: String = "EDIT_STREAMS_URIS"
@@ -210,7 +212,8 @@ object Keys {
     const val SIZE_STATION_IMAGE_CARD: Int = 72 // todo adjust according to layout
     const val SIZE_STATION_IMAGE_MAXIMUM: Int = 640
     const val SIZE_STATION_IMAGE_LOCK_SCREEN: Int = 320
-    const val BOTTOM_SHEET_PEEK_HEIGHT: Int = 72
+    const val PLAYER_HEIGHT: Int = 80 // height of card_player.xml
+    const val PLAYER_BOTTOM_MARGIN: Int = 16 // value of android:layout_marginBottom for card_player in activity_main.xml
 
     // default values
     val DEFAULT_DATE: Date = Date(0L)

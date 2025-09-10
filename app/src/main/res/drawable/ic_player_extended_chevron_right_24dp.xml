@@ -4,6 +4,6 @@
         android:viewportWidth="960"
         android:viewportHeight="960">
     <path
-        android:fillColor="@color/player_sheet_icon"
+        android:fillColor="?attr/colorOnSurfaceVariant"
         android:pathData="M531.69,480L347.69,296L376,267.69L588.31,480L376,692.31L347.69,664L531.69,480Z"/>
 </vector>

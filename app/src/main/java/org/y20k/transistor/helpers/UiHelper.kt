@@ -26,6 +26,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import org.y20k.transistor.Keys
 import org.y20k.transistor.R
@@ -115,7 +116,7 @@ object UiHelper {
         private val intrinsicWidth: Int = deleteIcon?.intrinsicWidth ?: 0
         private val intrinsicHeight: Int = deleteIcon?.intrinsicHeight ?: 0
         private val background: ColorDrawable = ColorDrawable()
-        private val backgroundColor = context.resources.getColor(R.color.list_card_delete_background, null)
+        private val backgroundColor = MaterialColors.getColor(context, R.attr.colorErrorContainer, null)
         private val clearPaint: Paint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
@@ -185,7 +186,7 @@ object UiHelper {
         private val intrinsicWidth: Int = starIcon?.intrinsicWidth ?: 0
         private val intrinsicHeight: Int = starIcon?.intrinsicHeight ?: 0
         private val background: ColorDrawable = ColorDrawable()
-        private val backgroundColor = context.resources.getColor(R.color.list_card_mark_starred_background, null)
+        private val backgroundColor = MaterialColors.getColor(context, R.attr.colorPrimary, null)
         private val clearPaint: Paint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {

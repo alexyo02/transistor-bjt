@@ -15,11 +15,14 @@
 package org.y20k.transistor.helpers
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.color.DynamicColors
+import com.google.android.material.color.DynamicColorsOptions
 import org.y20k.transistor.Keys
 import org.y20k.transistor.R
 
@@ -80,6 +83,28 @@ object AppThemeHelper {
             Keys.STATE_THEME_DARK_MODE -> context.getString(R.string.pref_theme_selection_mode_dark)
             else -> context.getString(R.string.pref_theme_selection_mode_device_default)
         }
+    }
+
+
+    /* Sets up Dynamic Colors based on user preferences */
+    fun setupDynamicColors(application: Application) {
+        val dynamicColorsEnabled = PreferencesHelper.loadDynamicColorsEnabled()
+        val options = DynamicColorsOptions.Builder()
+            .setOnAppliedCallback { activity ->
+                if (!dynamicColorsEnabled) {
+                    activity.setTheme(R.style.AppTheme)
+                }
+            }
+            .setThemeOverlay(
+                if (dynamicColorsEnabled) {
+                    R.style.ThemeOverlay_Material3_DynamicColors_DayNight
+                }
+                else {
+                    R.style.AppTheme
+                }
+            )
+            .build()
+        DynamicColors.applyToActivitiesIfAvailable(application, options)
     }
 
 

@@ -59,7 +59,7 @@ class AddStationDialog (private val context: Context, private val stationList: L
     /* Construct and show dialog */
     fun show() {
         // prepare dialog builder
-        val builder: MaterialAlertDialogBuilder = MaterialAlertDialogBuilder(context, R.style.AlertDialogTheme)
+        val builder: MaterialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
 
         // set title
         builder.setTitle(R.string.dialog_add_station_title)

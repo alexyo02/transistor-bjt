@@ -4,5 +4,5 @@
     <size
         android:width="56dp"
         android:height="56dp" />
-    <solid android:color="@color/player_button_background" />
+    <solid android:color="?attr/colorPrimary" />
 </shape>

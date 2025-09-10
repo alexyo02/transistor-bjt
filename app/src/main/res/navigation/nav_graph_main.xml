@@ -20,7 +20,6 @@
     <fragment
         android:id="@+id/settings_destination"
         android:name="org.y20k.transistor.SettingsFragment"
-        android:label="Settings"
-        tools:layout="@layout/fragment_settings" />
+        android:label="Settings" />
 
 </navigation>

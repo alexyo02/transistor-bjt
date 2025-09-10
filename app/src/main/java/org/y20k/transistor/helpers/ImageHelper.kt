@@ -23,7 +23,9 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.net.Uri
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.toColorInt
 import androidx.core.net.toUri
 import androidx.palette.graphics.Palette
 import org.y20k.transistor.R
@@ -68,7 +70,7 @@ object ImageHelper {
 
         // get default image
         if (bitmap == null) {
-            bitmap = ContextCompat.getDrawable(context, R.drawable.ic_default_station_image_72dp)!!.toBitmap()
+            bitmap = ContextCompat.getDrawable(context, R.drawable.ic_default_station_image_64dp)!!.toBitmap()
         }
 
         return bitmap
@@ -105,11 +107,11 @@ object ImageHelper {
         if (backgroundColor != -1) {
             background.color = backgroundColor
         } else {
-            background.color = ContextCompat.getColor(context, R.color.default_neutral_dark)
+            background.color = "#ff595959".toColorInt() // color = system_neutral1_600
         }
 
         // create empty bitmap and canvas
-        val outputImage: Bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val outputImage: Bitmap = createBitmap(size, size)
         val imageCanvas: Canvas = Canvas(outputImage)
 
         // draw square background
@@ -147,7 +149,7 @@ object ImageHelper {
             }
             else -> {
                 // default return
-                return context.resources.getColor(R.color.default_neutral_medium_light, null)
+                return "#ff7d7d7d".toColorInt() // color = system_neutral1_300
             }
         }
     }
@@ -182,7 +184,7 @@ object ImageHelper {
 
         // get default image
         if (bitmap == null) {
-            bitmap = ContextCompat.getDrawable(context, R.drawable.ic_default_station_image_72dp)!!.toBitmap()
+            bitmap = ContextCompat.getDrawable(context, R.drawable.ic_default_station_image_64dp)!!.toBitmap()
         }
 
         return bitmap

@@ -288,6 +288,20 @@ object PreferencesHelper {
     }
 
 
+    /* Loads value of the option: Dynamic Colors */
+    fun loadDynamicColorsEnabled(): Boolean {
+        return sharedPreferences.getBoolean(Keys.PREF_DYNAMIC_COLORS, false)
+    }
+
+
+    /* Saves value of the option: Dynamic Colors */
+    fun saveDynamicColorsEnabled(enabled: Boolean = true) {
+        sharedPreferences.edit {
+            putBoolean(Keys.PREF_DYNAMIC_COLORS, enabled)
+        }
+    }
+
+
     /* Loads value of the option: Buffer Size */
     fun loadLargeBufferSize(): Boolean {
         return sharedPreferences.getBoolean(Keys.PREF_LARGE_BUFFER_SIZE, false)

@@ -16,7 +16,7 @@
             android:layout_marginEnd="24dp"
             android:text="@string/dialog_error_message_default"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="@color/text_default"
+            android:textColor="?attr/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,13 +32,14 @@
             android:layout_marginEnd="24dp"
             android:scrollbars="vertical"
             android:text="@string/dialog_generic_details_button"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-            android:textColor="@color/text_default"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:textColor="?attr/colorOnSurface"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dialog_message"
-            tools:text="@string/dialog_generic_details_button" />
+            tools:text="@string/dialog_generic_details_button"
+            tools:visibility="visible" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/dialog_details"
@@ -50,12 +51,13 @@
             android:scrollbars="vertical"
             android:text="@string/dialog_opml_import_details_default"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="@color/text_default"
+            android:textColor="?attr/colorOnSurface"
             android:textIsSelectable="true"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dialog_details_link"
-            tools:text="@string/dialog_opml_import_details_default" />
+            tools:text="@string/dialog_opml_import_details_default"
+            tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
