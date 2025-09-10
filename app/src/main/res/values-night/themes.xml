@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Customizations to the base theme -->
-    <style name="AppTheme" parent="AppTheme.Base">
-
-        <!-- <item name="mediaRouteTheme">@style/CustomMediaRouterTheme</item>-->
-
-    </style>
-
     <!-- Base application theme -->
     <style name="AppTheme.Base" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- theme created via https://material-foundation.github.io/material-theme-builder/ -->
@@ -58,15 +51,5 @@
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
     </style>
-
-    <style name="Circle" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
-
-    <!-- custom style for the Cast button -->
-    <!--    <style name="CustomMediaRouteButtonStyle" parent="Widget.MediaRouter.MediaRouteButton">-->
-    <!--        <item name="android:tint">@color/player_sheet_icon</item>-->
-    <!--    </style>-->
 
 </resources>

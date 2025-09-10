@@ -61,7 +61,7 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
     private val mainToolBar: MaterialToolbar
     private val playerCardView: MaterialCardView
     private var playerPlaybackViews: Group
-    private var playerStationInfoViews: Group
+    private var playerExtendedViews: Group
     var sleepTimerRunningViews: Group
     private var downloadProgressIndicator: ProgressBar
     private var stationImageView: ImageView
@@ -90,7 +90,7 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
         mainToolBar = rootView.findViewById(R.id.main_toolbar)
         playerCardView = rootView.findViewById(R.id.player_card)
         playerPlaybackViews = rootView.findViewById(R.id.playback_views)
-        playerStationInfoViews = rootView.findViewById(R.id.station_info_views)
+        playerExtendedViews = rootView.findViewById(R.id.player_extended_views)
         sleepTimerRunningViews = rootView.findViewById(R.id.sleep_timer_running_views)
         downloadProgressIndicator = rootView.findViewById(R.id.download_progress_indicator)
         stationImageView = rootView.findViewById(R.id.station_icon)
@@ -98,13 +98,13 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
         metadataView = rootView.findViewById(R.id.player_station_metadata)
         playButtonView = rootView.findViewById(R.id.player_play_button)
         bufferingIndicator = rootView.findViewById(R.id.player_buffering_indicator)
-        playerStreamingLinkView = rootView.findViewById(R.id.sheet_streaming_link)
-        playerStreamingLinkHeadline = rootView.findViewById(R.id.sheet_streaming_link_headline)
-        playerMetadataHistoryHeadline = rootView.findViewById(R.id.sheet_metadata_headline)
-        playerMetadataHistoryView = rootView.findViewById(R.id.sheet_metadata_history)
-        playerNextMetadataView = rootView.findViewById(R.id.sheet_next_metadata_button)
-        playerPreviousMetadataView = rootView.findViewById(R.id.sheet_previous_metadata_button)
-        playerCopyMetadataButtonView = rootView.findViewById(R.id.copy_station_metadata_button)
+        playerStreamingLinkView = rootView.findViewById(R.id.player_extended_streaming_link)
+        playerStreamingLinkHeadline = rootView.findViewById(R.id.player_extended_streaming_link_headline)
+        playerMetadataHistoryHeadline = rootView.findViewById(R.id.player_extended_metadata_headline)
+        playerMetadataHistoryView = rootView.findViewById(R.id.player_extended_metadata_history)
+        playerNextMetadataView = rootView.findViewById(R.id.player_extended_next_metadata_button)
+        playerPreviousMetadataView = rootView.findViewById(R.id.player_extended_previous_metadata_button)
+        playerCopyMetadataButtonView = rootView.findViewById(R.id.player_extended_copy_station_metadata_button)
         playerSleepTimerStartButtonView = rootView.findViewById(R.id.sleep_timer_start_button)
         playerSleepTimerCancelButtonView = rootView.findViewById(R.id.sleep_timer_cancel_button)
         sheetSleepTimerRemainingTimeView = rootView.findViewById(R.id.sleep_timer_remaining_time)
@@ -240,7 +240,7 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
                 sleepTimerRunningViews.isGone = true
             }
             else -> {
-                sleepTimerRunningViews.isVisible = true
+                if (playerExtendedViews.isVisible) sleepTimerRunningViews.isVisible = true
                 val sleepTimerTimeRemaining = DateTimeHelper.convertToMinutesAndSeconds(timeRemaining)
                 sheetSleepTimerRemainingTimeView.text = sleepTimerTimeRemaining
                 sheetSleepTimerRemainingTimeView.contentDescription = "${context.getString(R.string.descr_expanded_player_sleep_timer_remaining_time)}: ${sleepTimerTimeRemaining}"            }
@@ -309,7 +309,7 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
     /* Shows player */
     fun showPlayer(): Boolean {
         playerPlaybackViews.visibility = View.VISIBLE
-        playerStationInfoViews.visibility = View.GONE
+        playerExtendedViews.visibility = View.GONE
         return true
     }
 
@@ -317,15 +317,15 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
     /* Hides player */
     fun hidePlayer(): Boolean {
         playerPlaybackViews.visibility = View.GONE
-        playerStationInfoViews.visibility = View.GONE
+        playerExtendedViews.visibility = View.GONE
         return true
     }
 
 
     /* Hides the info views if they are visible */
-    fun navigateBackHidesPlayerInfoView(): Boolean {
-        return if (playerStationInfoViews.isVisible) {
-            hidePlayerInfoViews()
+    fun navigateBackHidesPlayerExtendedViews(): Boolean {
+        return if (playerExtendedViews.isVisible) {
+            hidePlayerExtendedViews()
             true // = info view was visible had to be hidden (= no need to interpret back press as a navigation)
         } else {
             false
@@ -336,50 +336,50 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
     /* Shows the playback views and hides the info views */
     private fun showPlayerPlaybackViews() {
         playerPlaybackViews.isVisible = true
-        playerStationInfoViews.isGone = true
+        playerExtendedViews.isGone = true
         bufferingIndicator.isVisible = isBuffering
         sleepTimerRunningViews.isGone = true
     }
 
 
     /* Shows the info views and hides the playback views */
-    private fun showPlayerInfoViews() {
+    private fun showPlayerExtendedViews() {
         val transition = AutoTransition().apply {
             duration = Keys.DEFAULT_TRANSITION_ANIMATION_DURATION
         }
         TransitionManager.beginDelayedTransition(playerCardView, transition)
-        playerStationInfoViews.isVisible = true
+        playerExtendedViews.isVisible = true
         sleepTimerRunningViews.isGone = sheetSleepTimerRemainingTimeView.text.isEmpty()
     }
 
 
     /* Shows the info views and hides the playback views */
-    private fun hidePlayerInfoViews() {
+    private fun hidePlayerExtendedViews() {
         val transition = AutoTransition().apply {
             duration = Keys.DEFAULT_TRANSITION_ANIMATION_DURATION
         }
         TransitionManager.beginDelayedTransition(playerCardView, transition)
-        playerStationInfoViews.isGone = true
-        sleepTimerRunningViews.isGone = sheetSleepTimerRemainingTimeView.text.isEmpty()
+        playerExtendedViews.isGone = true
+        sleepTimerRunningViews.isGone = true
     }
 
 
     /* Toggles between showing the playback views (default) and the station info views */
-    private fun togglePlayerInfoViews() {
-        if (playerStationInfoViews.isGone) {
-            showPlayerInfoViews()
-        } else if (playerStationInfoViews.isVisible) {
-            hidePlayerInfoViews()
+    private fun togglePlayerExtendedViews() {
+        if (playerExtendedViews.isGone) {
+            showPlayerExtendedViews()
+        } else if (playerExtendedViews.isVisible) {
+            hidePlayerExtendedViews()
         }
     }
 
 
     /* Sets up the player */
     private fun setupPlayer() {
-        playerCardView.setOnClickListener { togglePlayerInfoViews() }
-        stationImageView.setOnClickListener { togglePlayerInfoViews() }
-        stationNameView.setOnClickListener { togglePlayerInfoViews() }
-        metadataView.setOnClickListener { togglePlayerInfoViews() }
+        playerCardView.setOnClickListener { togglePlayerExtendedViews() }
+        stationImageView.setOnClickListener { togglePlayerExtendedViews() }
+        stationNameView.setOnClickListener { togglePlayerExtendedViews() }
+        metadataView.setOnClickListener { togglePlayerExtendedViews() }
     }
 
 
@@ -388,7 +388,7 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
         when (newState) {
             RecyclerView.SCROLL_STATE_DRAGGING -> {
                 playerCardView.alpha = 0.5f
-                hidePlayerInfoViews()
+                hidePlayerExtendedViews()
             }
             RecyclerView.SCROLL_STATE_IDLE -> {
                 // animate the alpha transition from 0.5f to 1.0f

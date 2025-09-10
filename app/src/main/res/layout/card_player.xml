@@ -37,7 +37,8 @@
             android:id="@+id/player_station_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:letterSpacing="0"
@@ -56,19 +57,17 @@
             android:id="@+id/player_station_metadata"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:ellipsize="end"
             android:letterSpacing="0"
             android:singleLine="true"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:textColor="?attr/colorOnPrimaryContainer"
             app:layout_constraintBottom_toBottomOf="@+id/station_icon"
-            app:layout_constraintEnd_toStartOf="@+id/player_play_button"
-            app:layout_constraintStart_toEndOf="@+id/station_icon"
+            app:layout_constraintEnd_toEndOf="@+id/player_station_name"
+            app:layout_constraintStart_toStartOf="@+id/player_station_name"
             app:layout_constraintTop_toBottomOf="@+id/player_station_name"
             tools:text="@string/sample_text_station_metadata" />
         <!-- todo remove android:text attribute here -->
@@ -102,7 +101,7 @@
             tools:visibility="visible" />
 
         <ImageView
-            android:id="@+id/sheet_streaming_link_icon"
+            android:id="@+id/player_extended_streaming_link_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -110,22 +109,21 @@
             android:padding="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/station_icon"
-            app:srcCompat="@drawable/ic_player_sheet_music_note_24dp" />
+            app:srcCompat="@drawable/ic_player_extended_music_note_24dp" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/sheet_streaming_link_headline"
+            android:id="@+id/player_extended_streaming_link_headline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/player_sheet_h2_stream_url"
-            android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
             android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintBottom_toTopOf="@+id/sheet_streaming_link"
-            app:layout_constraintEnd_toEndOf="@+id/sheet_streaming_link"
-            app:layout_constraintStart_toStartOf="@+id/sheet_streaming_link" />
+            app:layout_constraintBottom_toTopOf="@+id/player_extended_streaming_link"
+            app:layout_constraintEnd_toEndOf="@+id/player_extended_streaming_link"
+            app:layout_constraintStart_toStartOf="@+id/player_extended_streaming_link" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/sheet_streaming_link"
+            android:id="@+id/player_extended_streaming_link"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -133,14 +131,14 @@
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
             android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintBottom_toBottomOf="@+id/sheet_streaming_link_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/player_extended_streaming_link_icon"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sheet_streaming_link_icon"
-            app:layout_constraintTop_toTopOf="@+id/sheet_streaming_link_icon"
+            app:layout_constraintStart_toEndOf="@+id/player_extended_streaming_link_icon"
+            app:layout_constraintTop_toTopOf="@+id/player_extended_streaming_link_icon"
             tools:text="@string/sample_text_steam_url" />
 
         <ImageButton
-            android:id="@+id/sheet_previous_metadata_button"
+            android:id="@+id/player_extended_previous_metadata_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -148,23 +146,22 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/descr_expanded_player_metadata_previous_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sheet_streaming_link_icon"
-            app:srcCompat="@drawable/ic_player_sheet_chevron_left_24dp" />
+            app:layout_constraintTop_toBottomOf="@+id/player_extended_streaming_link_icon"
+            app:srcCompat="@drawable/ic_player_extended_chevron_left_24dp" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/sheet_metadata_headline"
+            android:id="@+id/player_extended_metadata_headline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/player_sheet_h2_station_metadata"
-            android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
             android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintBottom_toTopOf="@+id/sheet_metadata_history"
-            app:layout_constraintEnd_toEndOf="@+id/sheet_metadata_history"
-            app:layout_constraintStart_toStartOf="@+id/sheet_metadata_history" />
+            app:layout_constraintBottom_toTopOf="@+id/player_extended_metadata_history"
+            app:layout_constraintEnd_toEndOf="@+id/player_extended_metadata_history"
+            app:layout_constraintStart_toStartOf="@+id/player_extended_metadata_history" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/sheet_metadata_history"
+            android:id="@+id/player_extended_metadata_history"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
@@ -174,26 +171,26 @@
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
             android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintBottom_toBottomOf="@+id/sheet_previous_metadata_button"
-            app:layout_constraintEnd_toStartOf="@+id/sheet_next_metadata_button"
-            app:layout_constraintStart_toEndOf="@+id/sheet_previous_metadata_button"
-            app:layout_constraintTop_toTopOf="@+id/sheet_previous_metadata_button"
+            app:layout_constraintBottom_toBottomOf="@+id/player_extended_previous_metadata_button"
+            app:layout_constraintEnd_toStartOf="@+id/player_extended_next_metadata_button"
+            app:layout_constraintStart_toEndOf="@+id/player_extended_previous_metadata_button"
+            app:layout_constraintTop_toTopOf="@+id/player_extended_previous_metadata_button"
             tools:text="@string/sample_text_station_metadata" />
 
         <ImageButton
-            android:id="@+id/sheet_next_metadata_button"
+            android:id="@+id/player_extended_next_metadata_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/descr_expanded_player_metadata_next_button"
-            app:layout_constraintBottom_toBottomOf="@+id/sheet_previous_metadata_button"
+            app:layout_constraintBottom_toBottomOf="@+id/player_extended_previous_metadata_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/sheet_previous_metadata_button"
-            app:srcCompat="@drawable/ic_player_sheet_chevron_right_24dp" />
+            app:layout_constraintTop_toTopOf="@+id/player_extended_previous_metadata_button"
+            app:srcCompat="@drawable/ic_player_extended_chevron_right_24dp" />
 
         <ImageButton
-            android:id="@+id/copy_station_metadata_button"
+            android:id="@+id/player_extended_copy_station_metadata_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -204,8 +201,8 @@
             android:contentDescription="@string/descr_expanded_player_metadata_copy_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sheet_previous_metadata_button"
-            app:srcCompat="@drawable/ic_player_sheer_copy_content_24dp" />
+            app:layout_constraintTop_toBottomOf="@+id/player_extended_previous_metadata_button"
+            app:srcCompat="@drawable/ic_player_extended_copy_content_24dp" />
 
         <ImageButton
             android:id="@+id/sleep_timer_start_button"
@@ -219,8 +216,8 @@
             android:contentDescription="@string/descr_expanded_player_sleep_timer_start_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sheet_previous_metadata_button"
-            app:srcCompat="@drawable/ic_player_sheet_sleep_timer_24dp" />
+            app:layout_constraintTop_toBottomOf="@+id/player_extended_previous_metadata_button"
+            app:srcCompat="@drawable/ic_player_extended_sleep_timer_24dp" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/sleep_timer_remaining_time"
@@ -255,11 +252,11 @@
             tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/station_info_views"
+            android:id="@+id/player_extended_views"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone"
-            app:constraint_referenced_ids="sheet_streaming_link_icon,sheet_streaming_link_headline,sheet_streaming_link,sheet_previous_metadata_button,sheet_metadata_headline,sheet_metadata_history,sheet_next_metadata_button,copy_station_metadata_button,sleep_timer_start_button"
+            app:constraint_referenced_ids="player_extended_streaming_link_icon,player_extended_streaming_link_headline,player_extended_streaming_link,player_extended_previous_metadata_button,player_extended_metadata_headline,player_extended_metadata_history,player_extended_next_metadata_button,player_extended_copy_station_metadata_button,sleep_timer_start_button"
             tools:visibility="gone" />
 
         <androidx.constraintlayout.widget.Group
