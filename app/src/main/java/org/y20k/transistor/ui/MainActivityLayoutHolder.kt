@@ -323,7 +323,7 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
 
 
     /* Hides the info views if they are visible */
-    fun navigateBackHidesPlayerExtendedViews(): Boolean {
+    fun hidePlayerExtendedViewsIfVisible(): Boolean {
         return if (playerExtendedViews.isVisible) {
             hidePlayerExtendedViews()
             true // = info view was visible had to be hidden (= no need to interpret back press as a navigation)

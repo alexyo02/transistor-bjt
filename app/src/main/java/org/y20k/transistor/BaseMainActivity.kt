@@ -123,7 +123,7 @@ abstract class BaseMainActivity : AppCompatActivity(),
         // custom back press handling
         val onBackPressedCallback = object : OnBackPressedCallback(true /* enabled by default */) {
             override fun handleOnBackPressed() {
-                if (!layout.navigateBackHidesPlayerExtendedViews()) {
+                if (!layout.hidePlayerExtendedViewsIfVisible()) {
                     isEnabled = false
                     onBackPressedDispatcher.onBackPressed()
                 }

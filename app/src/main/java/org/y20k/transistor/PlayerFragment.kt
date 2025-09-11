@@ -243,6 +243,12 @@ class PlayerFragment: Fragment(),
         pickImage()
     }
 
+    /* Overrides onStationCardTapped from CollectionAdapterListener */
+    override fun onStationCardTapped() {
+        val mainActivity = activity as? BaseMainActivity
+        mainActivity?.layout?.hidePlayerExtendedViewsIfVisible()
+    }
+
 
     /* Overrides onYesNoDialog from YesNoDialogListener */
     override fun onYesNoDialog(type: Int, dialogResult: Boolean, payload: Int, payloadString: String) {

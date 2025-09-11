@@ -83,6 +83,7 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
         fun onPlayButtonTapped(stationPosition: Int)
         fun onAddNewButtonTapped()
         fun onChangeImageButtonTapped(stationUuid: String)
+        fun onStationCardTapped()
     }
 
 
@@ -303,6 +304,8 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
         stationViewHolder.stationCardView.setOnClickListener {
             if (tapAnywherePlaybackEnabled) {
                 stationViewHolder.playButtonView.performClick()
+            } else {
+                collectionAdapterListener.onStationCardTapped()
             }
         }
         stationViewHolder.stationCardView.setOnLongClickListener {
