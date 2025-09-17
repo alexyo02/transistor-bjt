@@ -351,7 +351,7 @@ abstract class BasePlayerService: MediaLibraryService() {
             }.build()
             // create cancel button
             val customLayoutCancelButton: CommandButton = CommandButton.Builder().apply {
-                setIconResId(R.drawable.ic_clear_24dp)
+                setIconResId(R.drawable.ic_player_extended_clear_24dp)
                 setDisplayName(getString(R.string.notification_cancel))
                 setSessionCommand(SessionCommand(Keys.CMD_CANCEL_NOTIFICATION, Bundle.EMPTY))
             }.build()

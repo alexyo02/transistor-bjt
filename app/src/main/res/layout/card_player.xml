@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:text="@string/player_sheet_h2_stream_url"
             android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textColor="?attr/colorOnPrimaryContainer"
             app:layout_constraintBottom_toTopOf="@+id/player_extended_streaming_link"
             app:layout_constraintEnd_toEndOf="@+id/player_extended_streaming_link"
             app:layout_constraintStart_toStartOf="@+id/player_extended_streaming_link" />
@@ -130,7 +130,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textColor="?attr/colorOnPrimaryContainer"
             app:layout_constraintBottom_toBottomOf="@+id/player_extended_streaming_link_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/player_extended_streaming_link_icon"
@@ -155,7 +155,7 @@
             android:layout_height="wrap_content"
             android:text="@string/player_sheet_h2_station_metadata"
             android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textColor="?attr/colorOnPrimaryContainer"
             app:layout_constraintBottom_toTopOf="@+id/player_extended_metadata_history"
             app:layout_constraintEnd_toEndOf="@+id/player_extended_metadata_history"
             app:layout_constraintStart_toStartOf="@+id/player_extended_metadata_history" />
@@ -170,7 +170,7 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textColor="?attr/colorOnPrimaryContainer"
             app:layout_constraintBottom_toBottomOf="@+id/player_extended_previous_metadata_button"
             app:layout_constraintEnd_toStartOf="@+id/player_extended_next_metadata_button"
             app:layout_constraintStart_toEndOf="@+id/player_extended_previous_metadata_button"
@@ -241,7 +241,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/sleep_timer_remaining_time"
             app:layout_constraintEnd_toStartOf="@+id/sleep_timer_remaining_time"
             app:layout_constraintTop_toTopOf="@+id/sleep_timer_remaining_time"
-            app:srcCompat="@drawable/ic_clear_24dp" />
+            app:srcCompat="@drawable/ic_player_extended_clear_24dp" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/playback_views"
@@ -257,7 +257,7 @@
             android:layout_height="0dp"
             android:visibility="gone"
             app:constraint_referenced_ids="player_extended_streaming_link_icon,player_extended_streaming_link_headline,player_extended_streaming_link,player_extended_previous_metadata_button,player_extended_metadata_headline,player_extended_metadata_history,player_extended_next_metadata_button,player_extended_copy_station_metadata_button,sleep_timer_start_button"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/sleep_timer_running_views"
