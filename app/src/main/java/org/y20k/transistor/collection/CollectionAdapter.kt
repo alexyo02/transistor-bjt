@@ -18,6 +18,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,7 @@ import org.y20k.transistor.Keys
 import org.y20k.transistor.R
 import org.y20k.transistor.core.Collection
 import org.y20k.transistor.core.Station
+import org.y20k.transistor.dialogs.YesNoDialog
 import org.y20k.transistor.helpers.CollectionHelper
 import org.y20k.transistor.helpers.FileHelper
 import org.y20k.transistor.helpers.ImageHelper
@@ -62,7 +64,7 @@ import java.util.Locale
 /*
  * CollectionAdapter class
  */
-class CollectionAdapter(private val context: Context, private val collectionAdapterListener: CollectionAdapterListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), UpdateHelper.UpdateHelperListener {
+class CollectionAdapter(private val context: Context, private val collectionAdapterListener: CollectionAdapterListener, private val yesNoDialogListener: YesNoDialog.YesNoDialogListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), UpdateHelper.UpdateHelperListener {
 
     /* Define log tag */
     private val TAG: String = CollectionAdapter::class.java.simpleName
@@ -317,6 +319,21 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
                 return@setOnLongClickListener false
             }
         }
+        stationViewHolder.stationCardView.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN) {
+                when (keyCode) {
+                    KeyEvent.KEYCODE_DPAD_LEFT -> {
+                        toggleStarredStation(context, stationViewHolder.adapterPosition)
+                        return@setOnKeyListener true
+                    }
+                    KeyEvent.KEYCODE_DPAD_RIGHT -> {
+                        showDeleteStationDialog(yesNoDialogListener, stationViewHolder.adapterPosition)
+                        return@setOnKeyListener true
+                    }
+                    else -> return@setOnKeyListener false
+                }
+            } else return@setOnKeyListener false
+        }
     }
 
 
@@ -417,6 +434,13 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
         notifyItemRemoved(position)
         // save collection and broadcast changes
         CollectionHelper.saveCollection(context, newCollection, async = false)
+    }
+
+
+    /* Show the delete station dialog */
+    fun showDeleteStationDialog(yesNoDialogListener: YesNoDialog.YesNoDialogListener, position: Int) {
+        val dialogMessage: String = "${context.getString(R.string.dialog_yes_no_message_remove_station)}\n\n- ${collection.stations[position].name}"
+        YesNoDialog(yesNoDialogListener).show(context = context, type = Keys.DIALOG_REMOVE_STATION, messageString = dialogMessage, yesButton = R.string.dialog_yes_no_positive_button_remove_station, payload = position)
     }
 
 

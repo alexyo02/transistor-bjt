@@ -106,10 +106,7 @@ class PlayerFragment: Fragment(),
         collectionViewModel = ViewModelProvider(this)[CollectionViewModel::class.java]
 
         // create collection adapter
-        collectionAdapter = CollectionAdapter(
-            requireContext(),
-            this as CollectionAdapter.CollectionAdapterListener
-        )
+        collectionAdapter = CollectionAdapter(requireContext(), this as CollectionAdapter.CollectionAdapterListener, this as YesNoDialog.YesNoDialogListener)
     }
 
 
@@ -310,10 +307,8 @@ class PlayerFragment: Fragment(),
         // enable swipe to delete
         val swipeToDeleteHandler = object : UiHelper.SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                // ask user
-                val adapterPosition: Int = viewHolder.adapterPosition
-                val dialogMessage: String = "${getString(R.string.dialog_yes_no_message_remove_station)}\n\n- ${collection.stations[adapterPosition].name}"
-                YesNoDialog(this@PlayerFragment as YesNoDialog.YesNoDialogListener).show(context = requireContext(), type = Keys.DIALOG_REMOVE_STATION, messageString = dialogMessage, yesButton = R.string.dialog_yes_no_positive_button_remove_station, payload = adapterPosition)
+                // ask user and delete station if confirmed
+                collectionAdapter.showDeleteStationDialog(this@PlayerFragment as YesNoDialog.YesNoDialogListener, viewHolder.adapterPosition)
             }
         }
         val swipeToDeleteItemTouchHelper = ItemTouchHelper(swipeToDeleteHandler)

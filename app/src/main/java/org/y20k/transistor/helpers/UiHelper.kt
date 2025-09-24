@@ -245,7 +245,4 @@ object UiHelper {
      * End of inner class
      */
 
-
-
-
 }
