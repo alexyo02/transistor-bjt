@@ -41,6 +41,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -101,6 +102,10 @@ class PlayerFragment: Fragment(),
                     }
                 }
             })
+
+        // Set exit transition for PlayerFragment
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
 
         // create view model and observe changes in collection view model
         collectionViewModel = ViewModelProvider(this)[CollectionViewModel::class.java]
@@ -419,9 +424,7 @@ class PlayerFragment: Fragment(),
 
     /* Observe view model of collection of stations */
     private fun observeCollectionViewModel() {
-        collectionViewModel.collectionLiveData.observe(
-            this,
-            Observer<Collection> { updatedCollection ->
+        collectionViewModel.collectionLiveData.observe(this, Observer<Collection> { updatedCollection ->
                 // get BaseMainActivity instance
                 val mainActivity = activity as? BaseMainActivity
 
@@ -440,8 +443,9 @@ class PlayerFragment: Fragment(),
                 if (mainActivity != null && collection.stations.isNotEmpty()) {
                     val currentStation: Station = collection.stations[PreferencesHelper.loadLastPlayedStationPosition().coerceIn(0, collection.stations.size - 1)]
                     mainActivity.updatePlayerViews(currentStation)
+                    mainActivity.layout.showPlayer()
                 } else if (mainActivity != null && collection.stations.isEmpty()) {
-                    // todo hide the player
+                    mainActivity.layout.hidePlayer()
                 }
             })
     }

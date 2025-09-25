@@ -20,7 +20,8 @@
             android:layout_height="match_parent"
             android:paddingBottom="96dp"
             android:clipToPadding="false"
-            android:visibility="visible" />
+            android:visibility="visible"
+            tools:listitem="@layout/card_station"/>
         <!-- make room for the player => paddingBottom = Keys.PLAYER_HEIGHT + Keys.PLAYER_BOTTOM_MARGIN) -->
 
         <!-- ONBOARDING -->

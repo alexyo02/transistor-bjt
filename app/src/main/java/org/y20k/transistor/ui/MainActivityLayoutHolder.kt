@@ -22,12 +22,12 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Group
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
@@ -36,14 +36,13 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.MaterialToolbar
+import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import org.y20k.transistor.Keys
 import org.y20k.transistor.R
 import org.y20k.transistor.SettingsFragment
 import org.y20k.transistor.core.Station
 import org.y20k.transistor.helpers.DateTimeHelper
-import org.y20k.transistor.helpers.ImageHelper
 import org.y20k.transistor.helpers.PreferencesHelper
 import org.y20k.transistor.helpers.UiHelper
 
@@ -58,7 +57,6 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
 
     /* Main class variables */
     private lateinit var systemBars: Insets
-    private val mainToolBar: MaterialToolbar
     private val playerCardView: MaterialCardView
     private var playerPlaybackViews: Group
     private var playerExtendedViews: Group
@@ -87,7 +85,6 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
     /* Init block */
     init {
         // find views
-        mainToolBar = rootView.findViewById(R.id.main_toolbar)
         playerCardView = rootView.findViewById(R.id.player_card)
         playerPlaybackViews = rootView.findViewById(R.id.playback_views)
         playerExtendedViews = rootView.findViewById(R.id.player_extended_views)
@@ -178,10 +175,13 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
         stationNameView.text = station.name
 
         // update cover
+        Glide.with(context)
+            .load(station.image)
+            .error(R.drawable.ic_default_station_image_64dp)
+            .into(stationImageView)
         if (station.imageColor != -1) {
             stationImageView.setBackgroundColor(station.imageColor)
         }
-        stationImageView.setImageBitmap(ImageHelper.getStationImage(context, station.smallImage))
         stationImageView.contentDescription = "${context.getString(R.string.descr_player_station_image)}: ${station.name}"
 
         // update streaming link
@@ -411,16 +411,11 @@ data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutH
                 // get measurements for status and navigation bar
                 systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
 
-                // apply measurements to main toolbar and download progress indicator
-                mainToolBar.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                // apply measurements
+                downloadProgressIndicator.updateLayoutParams<FrameLayout.LayoutParams> {
                     topMargin = systemBars.top
                 }
-                downloadProgressIndicator.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                    topMargin = systemBars.top
-                }
-
-                // apply measurements to the player card
-                playerCardView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                playerCardView.updateLayoutParams<FrameLayout.LayoutParams> {
                     bottomMargin = (Keys.PLAYER_BOTTOM_MARGIN * UiHelper.getDensityScalingFactor(rootView.context)).toInt() + systemBars.bottom
                 }
 

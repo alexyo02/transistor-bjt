@@ -22,11 +22,15 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import org.y20k.transistor.Keys
+import org.y20k.transistor.R
 import org.y20k.transistor.core.Collection
 import org.y20k.transistor.core.Station
 import java.io.BufferedReader
@@ -184,10 +188,24 @@ object FileHelper {
 
 
     /* Creates and save a scaled version of the station image */
-    fun saveStationImage(context: Context, stationUuid: String, sourceImageUri: String, size: Int, fileName: String): Uri {
-        val coverBitmap: Bitmap = ImageHelper.getScaledStationImage(context, sourceImageUri, size)
-        val file: File = File(context.getExternalFilesDir(determineDestinationFolderPath(Keys.FILE_TYPE_IMAGE, stationUuid)), fileName)
-        writeImageFile(coverBitmap, file, Bitmap.CompressFormat.JPEG, quality = 75)
+    fun saveStationImage(context: Context, podcastName: String, sourceImageUri: String, size: Int, fileName: String): Uri {
+        val file: File = File(context.getExternalFilesDir(determineDestinationFolderPath(Keys.FILE_TYPE_IMAGE, podcastName)), fileName)
+        // load and scale the image
+        try {
+            val bitmap = Glide.with(context)
+                .asBitmap()
+                .load(sourceImageUri)
+                .override(size, size)
+                .centerCrop()
+                .error(R.drawable.ic_default_station_image_64dp)
+                .submit()
+                .get() // this blocks until the image is loaded - use only on background thread
+            writeImageFile(bitmap, file, Bitmap.CompressFormat.JPEG, quality = 75)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to load cover with Glide, falling back to default", e)
+            val defaultBitmap = ContextCompat.getDrawable(context, R.drawable.ic_default_station_image_64dp)!!.toBitmap(size, size)
+            writeImageFile(defaultBitmap, file, Bitmap.CompressFormat.JPEG, quality = 75)
+        }
         return file.toUri()
     }
 

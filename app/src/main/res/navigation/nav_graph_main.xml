@@ -6,14 +6,18 @@
     app:startDestination="@id/player_destination">
 
     <!-- PLAYER -->
+    <!-- player_destination has no label attribute because it is not needed for the navigation -->
     <fragment
         android:id="@+id/player_destination"
         android:name="org.y20k.transistor.PlayerFragment"
-        android:label="Player"
         tools:layout="@layout/fragment_player">
         <action
-            android:id="@+id/action_map_fragment_to_settings_fragment"
-            app:destination="@id/settings_destination" />
+            android:id="@+id/action_player_destination_to_settings_destination"
+            app:destination="@id/settings_destination"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
 
     <!-- SETTINGS -->

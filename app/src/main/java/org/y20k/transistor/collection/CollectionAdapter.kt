@@ -38,6 +38,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.CoroutineScope
@@ -52,7 +53,6 @@ import org.y20k.transistor.core.Station
 import org.y20k.transistor.dialogs.YesNoDialog
 import org.y20k.transistor.helpers.CollectionHelper
 import org.y20k.transistor.helpers.FileHelper
-import org.y20k.transistor.helpers.ImageHelper
 import org.y20k.transistor.helpers.NetworkHelper
 import org.y20k.transistor.helpers.PreferencesHelper
 import org.y20k.transistor.helpers.ShortcutHelper
@@ -139,7 +139,7 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
                     collectionAdapterListener.onAddNewButtonTapped()
                 }
                 addNewViewHolder.settingsButtonView.setOnClickListener {
-                    it.findNavController().navigate(R.id.settings_destination)
+                    it.findNavController().navigate(R.id.action_player_destination_to_settings_destination)
                 }
             }
 
@@ -286,10 +286,14 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
 
     /* Sets the station image view */
     private fun setStationImage(stationViewHolder: StationViewHolder, station: Station, position: Int) {
+        Glide.with(context)
+            .load(station.image)
+            .placeholder(R.drawable.ic_default_station_image_64dp)
+            .error(R.drawable.ic_default_station_image_64dp)
+            .into(stationViewHolder.stationImageView)
         if (station.imageColor != -1) {
             stationViewHolder.stationImageView.setBackgroundColor(station.imageColor)
         }
-        stationViewHolder.stationImageView.setImageBitmap(ImageHelper.getStationImage(context, station.smallImage))
         stationViewHolder.stationImageView.contentDescription = "${context.getString(R.string.descr_player_station_image)}: ${station.name}"
     }
 

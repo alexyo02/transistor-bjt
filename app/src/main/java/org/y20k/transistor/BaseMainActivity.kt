@@ -25,8 +25,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.graphics.Insets
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.session.MediaController
@@ -34,7 +32,6 @@ import androidx.media3.session.SessionResult
 import androidx.media3.session.SessionToken
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
@@ -66,7 +63,6 @@ abstract class BaseMainActivity : AppCompatActivity(),
 
     /* Main class variables */
     lateinit var layout: MainActivityLayoutHolder
-    private lateinit var systemBars: Insets
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var controllerFuture: ListenableFuture<MediaController>
     private val controller: MediaController? get() = if (controllerFuture.isDone) controllerFuture.get() else null
@@ -99,26 +95,6 @@ abstract class BaseMainActivity : AppCompatActivity(),
 
         // create .nomedia file - if not yet existing
         FileHelper.createNomediaFile(getExternalFilesDir(null))
-
-        // set up action bar
-        setSupportActionBar(findViewById(R.id.main_toolbar))
-        val toolbar: Toolbar = findViewById<Toolbar>(R.id.main_toolbar)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_host_container) as NavHostFragment
-        val navController = navHostFragment.navController
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration)
-        supportActionBar?.hide()
-
-        // show/hide toolbar based on current fragment
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.settings_destination) {
-                supportActionBar?.show()
-                // find the SettingsFragment and set the layout as its list drag listener
-                val settingsFragment = supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.fragments?.firstOrNull() as? SettingsFragment
-                settingsFragment?.setListDragListener(layout as SettingsFragment.SettingsListDragListener)
-            }
-            else supportActionBar?.hide()
-        }
 
         // custom back press handling
         val onBackPressedCallback = object : OnBackPressedCallback(true /* enabled by default */) {

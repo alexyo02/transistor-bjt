@@ -117,13 +117,34 @@ object DownloadHelper {
             } else if ((fileType in Keys.MIME_TYPES_M3U || fileType in Keys.MIME_TYPES_PLS) && !CollectionHelper.isNewStation(collection, remoteFileLocation)) {
                 updateStation(context, localFileUri, remoteFileLocation)
             } else if (fileType in Keys.MIME_TYPES_IMAGE) {
-                collection = CollectionHelper.setStationImageWithRemoteLocation(context, collection, localFileUri.toString(), remoteFileLocation, false)
+                setStationImage(context, localFileUri.toString(), remoteFileLocation, false)
             } else if (fileType in Keys.MIME_TYPES_FAVICON) {
-                collection = CollectionHelper.setStationImageWithRemoteLocation(context, collection, localFileUri.toString(), remoteFileLocation, false)
+                setStationImage(context, localFileUri.toString(), remoteFileLocation, false)
             }
             // remove ID from active downloads
             removeFromActiveDownloads(arrayOf(downloadId))
         }
+    }
+
+
+    /* Sets station image - determines station by remote image file location */
+    private fun setStationImage(context: Context, tempImageFileUri: String, remoteFileLocation: String, imageManuallySet: Boolean = false) {
+        CoroutineScope(IO).launch {
+            collection.stations.forEach { station ->
+                // compare image location protocol-agnostic (= without http / https)
+                if (station.remoteImageLocation.substringAfter(":") == remoteFileLocation.substringAfter(":")) {
+                    station.smallImage = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri.toString(), Keys.SIZE_STATION_IMAGE_CARD, Keys.STATION_SMALL_IMAGE_FILE).toString()
+                    station.image = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri, Keys.SIZE_STATION_IMAGE_MAXIMUM, Keys.STATION_IMAGE_FILE).toString()
+                    station.imageColor = UiHelper.getMainColor(context, tempImageFileUri)
+                    station.imageManuallySet = imageManuallySet
+                }
+            }
+            // save collection
+            withContext(Main) {
+                CollectionHelper.saveCollection(context, collection)
+            }
+        }
+
     }
 
 

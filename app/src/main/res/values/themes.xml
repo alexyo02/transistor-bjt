@@ -10,6 +10,11 @@
 
     <!-- Base application theme -->
     <style name="AppTheme.Base" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- inject custom layout for preferences -->
+        <!-- credit: https://medium.com/@JakobUlbrich/sure-you-can-use-a-custom-layout-for-your-preferencefragmentcompat-318b7fa06e29 -->
+        <item name="preferenceFragmentCompatStyle">
+            @style/AppPreferenceFragmentCompatStyle
+        </item>
         <!-- theme created via https://material-foundation.github.io/material-theme-builder/ -->
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
@@ -62,6 +67,11 @@
     <style name="Circle" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
+    </style>
+
+    <!-- Override the default layout for PreferenceFragmentCompat -->
+    <style name="AppPreferenceFragmentCompatStyle" parent="@style/PreferenceFragment.Material">
+        <item name="android:layout">@layout/fragment_settings</item>
     </style>
 
     <!-- custom style for the Cast button -->

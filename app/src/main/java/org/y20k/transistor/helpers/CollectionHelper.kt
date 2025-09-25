@@ -26,8 +26,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import com.google.gson.GsonBuilder
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 import org.y20k.transistor.Keys
 import org.y20k.transistor.R
 import org.y20k.transistor.core.Collection
@@ -35,7 +36,10 @@ import org.y20k.transistor.core.Station
 import org.y20k.transistor.search.RadioBrowserResult
 import java.io.File
 import java.net.URL
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.GregorianCalendar
+import java.util.Locale
 
 
 /*
@@ -179,30 +183,13 @@ object CollectionHelper {
 
 
     /* Sets station image - determines station by remote image file location */
-    fun setStationImageWithRemoteLocation(context: Context, collection: Collection, tempImageFileUri: String, remoteFileLocation: String, imageManuallySet: Boolean = false): Collection {
-        collection.stations.forEach { station ->
-            // compare image location protocol-agnostic (= without http / https)
-            if (station.remoteImageLocation.substringAfter(":") == remoteFileLocation.substringAfter(":")) {
-                station.smallImage = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri.toString(), Keys.SIZE_STATION_IMAGE_CARD, Keys.STATION_SMALL_IMAGE_FILE).toString()
-                station.image = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri, Keys.SIZE_STATION_IMAGE_MAXIMUM, Keys.STATION_IMAGE_FILE).toString()
-                station.imageColor = ImageHelper.getMainColor(context, tempImageFileUri)
-                station.imageManuallySet = imageManuallySet
-            }
-        }
-        // save and return collection
-        saveCollection(context, collection)
-        return collection
-    }
-
-
-    /* Sets station image - determines station by remote image file location */
     fun setStationImageWithStationUuid(context: Context, collection: Collection, tempImageFileUri: String, stationUuid: String, imageManuallySet: Boolean = false): Collection {
         collection.stations.forEach { station ->
             // find station by uuid
             if (station.uuid == stationUuid) {
                 station.smallImage = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri, Keys.SIZE_STATION_IMAGE_CARD, Keys.STATION_SMALL_IMAGE_FILE).toString()
                 station.image = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri, Keys.SIZE_STATION_IMAGE_MAXIMUM, Keys.STATION_IMAGE_FILE).toString()
-                station.imageColor = ImageHelper.getMainColor(context, tempImageFileUri)
+                station.imageColor = UiHelper.getMainColor(context, tempImageFileUri)
                 station.imageManuallySet = imageManuallySet
             }
         }
@@ -347,7 +334,7 @@ object CollectionHelper {
             if (station.image.isNotEmpty() && station.image.startsWith("file://") && station.image.toUri().toFile().exists()) {
                 setArtworkData(station.image.toUri().toFile().readBytes(), MediaMetadata.PICTURE_TYPE_FRONT_COVER)
             } else {
-                setArtworkData(ImageHelper.getStationImageAsByteArray(context), MediaMetadata.PICTURE_TYPE_FRONT_COVER)
+                setArtworkData(UiHelper.getDefaultStationImageAsByteArray(context), MediaMetadata.PICTURE_TYPE_FRONT_COVER)
             }
             // keep original artwork URI for being included in Cast metadata
             val extras = Bundle()
