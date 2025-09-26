@@ -207,11 +207,8 @@ object Keys {
     const val LOCATION_RESOURCES: String = "android.resource://org.y20k.transistor/"
 
     // sizes (in dp)
-    const val SIZE_COVER_NOTIFICATION_LARGE_ICON: Int = 256
-    const val SIZE_COVER_LOCK_SCREEN: Int = 320
-    const val SIZE_STATION_IMAGE_CARD: Int = 72 // todo adjust according to layout
-    const val SIZE_STATION_IMAGE_MAXIMUM: Int = 640
-    const val SIZE_STATION_IMAGE_LOCK_SCREEN: Int = 320
+    const val SIZE_STATION_IMAGE_SMALL: Int = 360
+    const val SIZE_STATION_IMAGE: Int = 960
     const val PLAYER_HEIGHT: Int = 80 // height of card_player.xml
     const val PLAYER_BOTTOM_MARGIN: Int = 16 // value of android:layout_marginBottom for card_player in activity_main.xml
 

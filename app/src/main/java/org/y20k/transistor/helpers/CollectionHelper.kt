@@ -187,8 +187,8 @@ object CollectionHelper {
         collection.stations.forEach { station ->
             // find station by uuid
             if (station.uuid == stationUuid) {
-                station.smallImage = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri, Keys.SIZE_STATION_IMAGE_CARD, Keys.STATION_SMALL_IMAGE_FILE).toString()
-                station.image = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri, Keys.SIZE_STATION_IMAGE_MAXIMUM, Keys.STATION_IMAGE_FILE).toString()
+                station.smallImage = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri, Keys.SIZE_STATION_IMAGE_SMALL, Keys.STATION_SMALL_IMAGE_FILE).toString()
+                station.image = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri, Keys.SIZE_STATION_IMAGE, Keys.STATION_IMAGE_FILE).toString()
                 station.imageColor = UiHelper.getMainColor(context, tempImageFileUri)
                 station.imageManuallySet = imageManuallySet
             }
