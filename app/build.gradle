@@ -13,7 +13,7 @@ android {
         minSdkVersion 25
         targetSdkVersion 36
         versionCode 106
-        versionName "4.2.6"
+        versionName "4.3.0"
         resConfigs "en", "ar", "ast", "bg", "ca", "ckb", "cs", "cy", "de", "el", "eo", "es", "et", "eu", "fi", "fr", "fy", "ga", "gl", "hi", "hr", "hu", "ia", "id", "it", "iw", "ja", "ko", "nb-rNO", "nl", "pl", "pt", "pt-rBR", "ro", "ru", "sk", "sl", "sr", "ta", "tr", "uk", "zh-rCN"
     }
 
