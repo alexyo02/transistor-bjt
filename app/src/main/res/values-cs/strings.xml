@@ -107,4 +107,8 @@
     <string name="cast_context_error">Nepodařilo se získat vysílaný obsah. Zkuste aktualizovat služby Google Play a restartujte aplikaci.</string>
     <string name="descr_back_icon">Přejít zpět</string>
     <string name="notification_cancel">Zrušit</string>
+    <string name="pref_dynamic_colors_title">Dynamické barvy</string>
+    <string name="pref_dynamic_colors_summary_enabled">Používám systémové barvy pro prvky rozhraní.</string>
+    <string name="pref_dynamic_colors_summary_disabled">Používám výchozí barvy aplikace pro prvky rozhraní.</string>
+    <string name="descr_expanded_player_streaming_link_icon">Ikona poznámky</string>
 </resources>
