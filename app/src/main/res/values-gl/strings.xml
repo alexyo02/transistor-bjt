@@ -107,4 +107,8 @@
     <string name="cast_context_error">Non se obtivo o contexto Cast. Intenta actualizar Google Play Services e reiniciar a app.</string>
     <string name="descr_back_icon">Volver atrás</string>
     <string name="notification_cancel">Desbotar</string>
+    <string name="pref_dynamic_colors_title">Cores dinámicas</string>
+    <string name="pref_dynamic_colors_summary_disabled">Usar as cores por defecto da app para a interface.</string>
+    <string name="descr_expanded_player_streaming_link_icon">Icona da nota</string>
+    <string name="pref_dynamic_colors_summary_enabled">Usar cores do sistema para a interface.</string>
 </resources>

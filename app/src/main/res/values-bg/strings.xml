@@ -107,4 +107,8 @@
     <string name="cast_context_error">Не е получен контекст на Cast. Обновете Google Play Services и рестартирайте приложението.</string>
     <string name="descr_back_icon">Връщане назад</string>
     <string name="notification_cancel">Отказ</string>
+    <string name="pref_dynamic_colors_title">Динамични цветове</string>
+    <string name="pref_dynamic_colors_summary_enabled">Използване на системните цветове за акцент за елементите на интерфейса.</string>
+    <string name="pref_dynamic_colors_summary_disabled">Използване на подразбираните цветове на приложението за елементите на интерфейса.</string>
+    <string name="descr_expanded_player_streaming_link_icon">Пиктограма за бележка</string>
 </resources>

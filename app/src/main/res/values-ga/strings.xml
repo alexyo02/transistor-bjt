@@ -107,4 +107,8 @@
     <string name="cast_context_error">Theip ar an gcomhthéacs Cast a fháil. Bain triail as Google Play Services a nuashonrú agus atosaigh an aip.</string>
     <string name="descr_back_icon">Téigh siar</string>
     <string name="notification_cancel">Cealaigh</string>
+    <string name="pref_dynamic_colors_title">Dathanna Dinimiciúla</string>
+    <string name="pref_dynamic_colors_summary_enabled">Ag baint úsáide as dathanna béime córais le haghaidh eilimintí comhéadain úsáideora.</string>
+    <string name="pref_dynamic_colors_summary_disabled">Ag baint úsáide as dathanna réamhshocraithe an aip le haghaidh eilimintí UI.</string>
+    <string name="descr_expanded_player_streaming_link_icon">Deilbhín nóta</string>
 </resources>
