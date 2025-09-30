@@ -3,6 +3,11 @@
 
     <!-- Base application theme -->
     <style name="AppTheme.Base" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- inject custom layout for preferences -->
+        <!-- credit: https://medium.com/@JakobUlbrich/sure-you-can-use-a-custom-layout-for-your-preferencefragmentcompat-318b7fa06e29 -->
+        <item name="preferenceFragmentCompatStyle">
+            @style/AppPreferenceFragmentCompatStyle
+        </item>
         <!-- theme created via https://material-foundation.github.io/material-theme-builder/ -->
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
