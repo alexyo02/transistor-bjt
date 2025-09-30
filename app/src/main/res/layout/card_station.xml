@@ -40,7 +40,7 @@
         android:id="@+id/change_image_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="?attr/colorSurfaceContainerHighest"
+        android:background="@color/default_neutral_85percent"
         android:contentDescription="@string/descr_card_station_image_change"
         android:cropToPadding="false"
         app:contentPadding="18dp"
@@ -49,7 +49,7 @@
         app:layout_constraintStart_toStartOf="@+id/station_icon"
         app:layout_constraintTop_toTopOf="@+id/station_icon"
         app:shapeAppearanceOverlay="@style/Circle"
-        app:srcCompat="@drawable/ic_image_inverse_36dp" />
+        app:srcCompat="@drawable/ic_image_white_36dp" />
 
     <ImageView
         android:id="@+id/starred_icon"
@@ -167,7 +167,7 @@
         android:layout_height="0dp"
         android:visibility="gone"
         app:constraint_referenced_ids="change_image_view,edit_station_name,place_on_home_screen_button,save_button,cancel_button"
-        tools:visibility="gone  " />
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
