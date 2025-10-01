@@ -1,7 +1,7 @@
 /*
- * PlayerFragment.kt
- * Implements the PlayerFragment class
- * PlayerFragment is the fragment that hosts Transistor's list of stations
+ * MainFragment.kt
+ * Implements the MainFragment class
+ * MainFragment is the fragment that hosts Transistor's list of stations
  *
  * This file is part of
  * TRANSISTOR - Radio App for Android
@@ -62,24 +62,24 @@ import org.y20k.transistor.helpers.NetworkHelper
 import org.y20k.transistor.helpers.PreferencesHelper
 import org.y20k.transistor.helpers.UiHelper
 import org.y20k.transistor.helpers.UpdateHelper
-import org.y20k.transistor.ui.PlayerFragmentLayoutHolder
+import org.y20k.transistor.ui.MainFragmentLayoutHolder
 
 
 /*
- * PlayerFragment class
+ * MainFragment class
  */
-class PlayerFragment: Fragment(),
+class MainFragment: Fragment(),
     FindStationDialog.FindStationDialogListener,
     AddStationDialog.AddStationDialogListener,
     CollectionAdapter.CollectionAdapterListener,
     YesNoDialog.YesNoDialogListener {
 
     /* Define log tag */
-    private val TAG: String = PlayerFragment::class.java.simpleName
+    private val TAG: String = MainFragment::class.java.simpleName
 
 
     /* Main class variables */
-    lateinit var layout: PlayerFragmentLayoutHolder
+    lateinit var layout: MainFragmentLayoutHolder
     private lateinit var collectionViewModel: CollectionViewModel
     private lateinit var collectionAdapter: CollectionAdapter
     private var collection: Collection = Collection()
@@ -103,7 +103,7 @@ class PlayerFragment: Fragment(),
                 }
             })
 
-        // Set exit transition for PlayerFragment
+        // Set exit transition for MainFragment
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
 
@@ -118,8 +118,8 @@ class PlayerFragment: Fragment(),
     /* Overrides onCreate from Fragment*/
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // find views and set them up
-        val rootView: View = inflater.inflate(R.layout.fragment_player, container, false);
-        layout = PlayerFragmentLayoutHolder(rootView)
+        val rootView: View = inflater.inflate(R.layout.fragment_main, container, false);
+        layout = MainFragmentLayoutHolder(rootView)
         initializeViews()
         // hide action bar
         (activity as AppCompatActivity).supportActionBar?.hide()
@@ -160,7 +160,7 @@ class PlayerFragment: Fragment(),
         // set up list drag listener
         val mainActivity = activity as? BaseMainActivity
         if (mainActivity != null) {
-            layout.setListDragListener(mainActivity.layout as PlayerFragmentLayoutHolder.StationListDragListener)
+            layout.setListDragListener(mainActivity.layout as MainFragmentLayoutHolder.StationListDragListener)
             // layout.setListDragListener(mainActivity as SettingsFragment.SettingsListDragListener)
         }
     }
@@ -290,20 +290,6 @@ class PlayerFragment: Fragment(),
     }
 
 
-//    /* Handles this activity's start intent */
-//    private fun handleStartIntent() {
-//        if ((activity as Activity).intent.action != null) {
-//            when ((activity as Activity).intent.action) {
-//                Keys.ACTION_SHOW_PLAYER -> handleShowPlayer()
-//                Intent.ACTION_VIEW -> handleViewIntent()
-//                Keys.ACTION_START -> handleStartPlayer()
-//            }
-//        }
-//        // clear intent action to prevent double calls
-//        (activity as Activity).intent.action = ""
-//    }
-
-
     /* Sets up views and connects tap listeners - first run */
     private fun initializeViews() {
         // set adapter data source
@@ -313,7 +299,7 @@ class PlayerFragment: Fragment(),
         val swipeToDeleteHandler = object : UiHelper.SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 // ask user and delete station if confirmed
-                collectionAdapter.showDeleteStationDialog(this@PlayerFragment as YesNoDialog.YesNoDialogListener, viewHolder.adapterPosition)
+                collectionAdapter.showDeleteStationDialog(this@MainFragment as YesNoDialog.YesNoDialogListener, viewHolder.adapterPosition)
             }
         }
         val swipeToDeleteItemTouchHelper = ItemTouchHelper(swipeToDeleteHandler)
@@ -339,9 +325,6 @@ class PlayerFragment: Fragment(),
             layout.layoutManager.onRestoreInstanceState(listLayoutState)
         }
     }
-
-
-    /* These methods have been moved to BaseMainActivity */
 
 
     /* Check permissions and start image picker */
@@ -382,9 +365,6 @@ class PlayerFragment: Fragment(),
     }
 
 
-    /* This method has been moved to BaseMainActivity */
-
-
     /* Handles ACTION_VIEW request to add Station */
     private fun handleViewIntent() {
         val intentUri: Uri? = (activity as Activity).intent.data
@@ -405,7 +385,7 @@ class PlayerFragment: Fragment(),
                 }
                 withContext(Main) {
                     if (stationList.isNotEmpty()) {
-                        AddStationDialog(activity as Activity, stationList, this@PlayerFragment as AddStationDialog.AddStationDialogListener).show()
+                        AddStationDialog(activity as Activity, stationList, this@MainFragment as AddStationDialog.AddStationDialogListener).show()
                     } else {
                         // invalid address
                         Toast.makeText(context, R.string.toast_message_station_not_valid, Toast.LENGTH_LONG).show()
@@ -414,12 +394,6 @@ class PlayerFragment: Fragment(),
             }
         }
     }
-
-
-    /* This method has been moved to BaseMainActivity */
-
-
-    /* This method has been moved to BaseMainActivity */
 
 
     /* Observe view model of collection of stations */
@@ -481,6 +455,4 @@ class PlayerFragment: Fragment(),
         }
     }
 
-
-    /* Player functionality has been moved to BaseMainActivity */
 }

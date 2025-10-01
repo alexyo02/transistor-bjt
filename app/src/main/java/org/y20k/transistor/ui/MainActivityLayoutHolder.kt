@@ -50,7 +50,7 @@ import org.y20k.transistor.helpers.UiHelper
 /*
  * MainActivityLayoutHolder class
  */
-data class MainActivityLayoutHolder (var rootView: View) : PlayerFragmentLayoutHolder.StationListDragListener, SettingsFragment.SettingsListDragListener {
+data class MainActivityLayoutHolder (var rootView: View) : MainFragmentLayoutHolder.StationListDragListener, SettingsFragment.SettingsListDragListener {
 
     /* Define log tag */
     private val TAG: String = MainActivityLayoutHolder::class.java.simpleName

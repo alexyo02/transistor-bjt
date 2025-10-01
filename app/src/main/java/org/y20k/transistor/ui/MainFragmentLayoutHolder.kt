@@ -1,7 +1,7 @@
 /*
- * PlayerFragmentLayoutHolder.kt
- * Implements the PlayerFragmentLayoutHolder class
- * A PlayerFragmentLayoutHolder hold references to the views used in PlayerFragment
+ * MainFragmentLayoutHolder.kt
+ * Implements the MainFragmentLayoutHolder class
+ * A MainFragmentLayoutHolder hold references to the views used in MainFragment
  *
  * This file is part of
  * TRANSISTOR - Radio App for Android
@@ -37,12 +37,12 @@ import org.y20k.transistor.helpers.UiHelper
 
 
 /*
- * PlayerFragmentLayoutHolder class
+ * MainFragmentLayoutHolder class
  */
-data class PlayerFragmentLayoutHolder(var rootView: View) {
+data class MainFragmentLayoutHolder(var rootView: View) {
 
     /* Define log tag */
-    private val TAG: String = PlayerFragmentLayoutHolder::class.java.simpleName
+    private val TAG: String = MainFragmentLayoutHolder::class.java.simpleName
 
 
     /* Interfaces for list events */

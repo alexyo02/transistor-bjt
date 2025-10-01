@@ -9,8 +9,8 @@
     <!-- player_destination has no label attribute because it is not needed for the navigation -->
     <fragment
         android:id="@+id/player_destination"
-        android:name="org.y20k.transistor.PlayerFragment"
-        tools:layout="@layout/fragment_player">
+        android:name="org.y20k.transistor.MainFragment"
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_player_destination_to_settings_destination"
             app:destination="@id/settings_destination"
