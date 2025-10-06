@@ -58,7 +58,7 @@ abstract class BaseMainActivity : AppCompatActivity(),
 
 
     /* Define log tag */
-    private val TAG: String = MainActivity::class.java.simpleName
+    private val TAG: String = BaseMainActivity::class.java.simpleName
 
 
     /* Main class variables */
