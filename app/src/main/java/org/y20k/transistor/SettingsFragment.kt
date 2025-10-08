@@ -148,7 +148,7 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         // set up "User Interface Transparency Effect" preference
         val preferenceUserInterfaceTransparencyEffect: SwitchPreferenceCompat = SwitchPreferenceCompat(activity as Context)
         preferenceUserInterfaceTransparencyEffect.title = getString(R.string.pref_user_interface_transparency_effect_title)
-        preferenceUserInterfaceTransparencyEffect.setIcon(R.drawable.ic_smartphone_24dp) // or another appropriate icon
+        preferenceUserInterfaceTransparencyEffect.setIcon(R.drawable.ic_transparency_24dp) // or another appropriate icon
         preferenceUserInterfaceTransparencyEffect.key = Keys.PREF_USER_INTERFACE_TRANSPARENCY_EFFECT
         preferenceUserInterfaceTransparencyEffect.summaryOn = getString(R.string.pref_user_interface_transparency_effect_summary_enabled)
         preferenceUserInterfaceTransparencyEffect.summaryOff = getString(R.string.pref_user_interface_transparency_effect_summary_disabled)
