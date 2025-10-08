@@ -80,6 +80,7 @@ data class MainActivityLayoutHolder (var rootView: View) : MainFragmentLayoutHol
     private var metadataHistory: MutableList<String>
     private var metadataHistoryPosition: Int
     private var isBuffering: Boolean
+    var userInterfaceTransparencyEffectActive: Boolean
 
 
     /* Init block */
@@ -110,6 +111,7 @@ data class MainActivityLayoutHolder (var rootView: View) : MainFragmentLayoutHol
         metadataHistory = PreferencesHelper.loadMetadataHistory()
         metadataHistoryPosition = metadataHistory.size - 1
         isBuffering = false
+        userInterfaceTransparencyEffectActive = PreferencesHelper.loadUserInterfaceTransparencyEffect()
 
         // set up metadata history next and previous buttons
         playerPreviousMetadataView.setOnClickListener {
@@ -385,20 +387,22 @@ data class MainActivityLayoutHolder (var rootView: View) : MainFragmentLayoutHol
 
     /* Make player semi-transparent during list drag */
     private fun setPlayerTransparencyDuringDrag(newState: Int) {
-        when (newState) {
-            RecyclerView.SCROLL_STATE_DRAGGING -> {
-                playerCardView.alpha = 0.5f
-                hidePlayerExtendedViews()
-            }
-            RecyclerView.SCROLL_STATE_IDLE -> {
-                // animate the alpha transition from 0.5f to 1.0f
-                playerCardView.animate()
-                    .alpha(1.0f)
-                    .setDuration(Keys.DEFAULT_TRANSITION_ANIMATION_DURATION)
-                    .start()
-            }
-            RecyclerView.SCROLL_STATE_SETTLING -> {
-                // animation handled in IDLE state
+        if (userInterfaceTransparencyEffectActive) {
+            when (newState) {
+                RecyclerView.SCROLL_STATE_DRAGGING -> {
+                    playerCardView.alpha = 0.5f
+                    hidePlayerExtendedViews()
+                }
+                RecyclerView.SCROLL_STATE_IDLE -> {
+                    // animate the alpha transition from 0.5f to 1.0f
+                    playerCardView.animate()
+                        .alpha(1.0f)
+                        .setDuration(Keys.DEFAULT_TRANSITION_ANIMATION_DURATION)
+                        .start()
+                }
+                RecyclerView.SCROLL_STATE_SETTLING -> {
+                    // animation handled in IDLE state
+                }
             }
         }
     }

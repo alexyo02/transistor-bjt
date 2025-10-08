@@ -30,7 +30,6 @@
     <string name="dialog_yes_no_positive_button_default">Yes</string>
     <string name="dialog_yes_no_positive_button_remove_station">Remove</string>
     <string name="dialog_yes_no_positive_button_update_covers">Update</string>
-    <!-- Station Menu -->
     <!-- Toasts -->
     <string name="toast_message_error_download_error">Download error</string>
     <string name="toast_message_error_missing_storage_permission">Grant \"Read Storage\" permission to open this file.</string>
@@ -72,6 +71,9 @@
     <string name="pref_buffer_size_summary_disabled">Using the default buffer size for playing a radio stream.</string>
     <string name="pref_buffer_size_summary_enabled">Larger buffer for playing a radio stream enabled. It may take longer for the playback to start.</string>
     <string name="pref_buffer_size_title">Use Larger Buffer</string>
+    <string name="pref_dynamic_colors_summary_enabled">Using system accent colors for UI elements.</string>
+    <string name="pref_dynamic_colors_summary_disabled">Using app\'s default colors for UI elements.</string>
+    <string name="pref_dynamic_colors_title">Dynamic Colors</string>
     <string name="pref_edit_station_summary_disabled">Editing of station information disabled.</string>
     <string name="pref_edit_station_summary_enabled">Editing of station information enabled. Use long press to enter edit mode.</string>
     <string name="pref_edit_station_title">Edit Stations</string>
@@ -94,11 +96,11 @@
     <string name="pref_theme_selection_mode_light">Light mode</string>
     <string name="pref_theme_selection_summary">Current theme:</string>
     <string name="pref_theme_selection_title">App Theme</string>
-    <string name="pref_dynamic_colors_title">Dynamic Colors</string>
-    <string name="pref_dynamic_colors_summary_enabled">Using system accent colors for UI elements.</string>
-    <string name="pref_dynamic_colors_summary_disabled">Using app\'s default colors for UI elements.</string>
     <string name="pref_update_station_images_summary">Download latest version of all station images.</string>
     <string name="pref_update_station_images_title">Update Station Images</string>
+    <string name="pref_user_interface_transparency_effect_summary_enabled">Playback controls become transparent as you scroll.</string>
+    <string name="pref_user_interface_transparency_effect_summary_disabled">Playback controls stay opaque during scrolling.</string>
+    <string name="pref_user_interface_transparency_effect_title">User interface transparency effect</string>
     <!-- Accessibility Descriptions -->
     <string name="descr_app_icon">App icon depicting an old radio</string>
     <string name="descr_back_icon">Navigate back</string>

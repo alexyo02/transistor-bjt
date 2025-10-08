@@ -302,6 +302,20 @@ object PreferencesHelper {
     }
 
 
+    /* Loads value of the option: UI Transparency Effect */
+    fun loadUserInterfaceTransparencyEffect(): Boolean {
+        return sharedPreferences.getBoolean(Keys.PREF_USER_INTERFACE_TRANSPARENCY_EFFECT, false)
+    }
+
+
+    /* Saves value of the option: UI Transparency Effect */
+    fun saveUserInterfaceTransparencyEffect(enabled: Boolean = false) {
+        sharedPreferences.edit {
+            putBoolean(Keys.PREF_USER_INTERFACE_TRANSPARENCY_EFFECT, enabled)
+        }
+    }
+
+
     /* Loads value of the option: Buffer Size */
     fun loadLargeBufferSize(): Boolean {
         return sharedPreferences.getBoolean(Keys.PREF_LARGE_BUFFER_SIZE, false)

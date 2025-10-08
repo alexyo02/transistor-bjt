@@ -53,8 +53,7 @@ import org.y20k.transistor.ui.PlayerState
 /*
  * BaseMainActivity class
  */
-abstract class BaseMainActivity : AppCompatActivity(),
-    SharedPreferences.OnSharedPreferenceChangeListener {
+abstract class BaseMainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
 
     /* Define log tag */
@@ -174,6 +173,9 @@ abstract class BaseMainActivity : AppCompatActivity(),
         when (key) {
             Keys.PREF_THEME_SELECTION -> {
                 AppThemeHelper.setTheme(PreferencesHelper.loadThemeSelection())
+            }
+            Keys.PREF_USER_INTERFACE_TRANSPARENCY_EFFECT -> {
+                layout.userInterfaceTransparencyEffectActive = PreferencesHelper.loadUserInterfaceTransparencyEffect()
             }
             Keys.PREF_ACTIVE_DOWNLOADS -> {
                 layout.toggleDownloadProgressIndicator()

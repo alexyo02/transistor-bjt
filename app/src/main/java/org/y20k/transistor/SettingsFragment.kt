@@ -145,6 +145,15 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
             true
         }
 
+        // set up "User Interface Transparency Effect" preference
+        val preferenceUserInterfaceTransparencyEffect: SwitchPreferenceCompat = SwitchPreferenceCompat(activity as Context)
+        preferenceUserInterfaceTransparencyEffect.title = getString(R.string.pref_user_interface_transparency_effect_title)
+        preferenceUserInterfaceTransparencyEffect.setIcon(R.drawable.ic_smartphone_24dp) // or another appropriate icon
+        preferenceUserInterfaceTransparencyEffect.key = Keys.PREF_USER_INTERFACE_TRANSPARENCY_EFFECT
+        preferenceUserInterfaceTransparencyEffect.summaryOn = getString(R.string.pref_user_interface_transparency_effect_summary_enabled)
+        preferenceUserInterfaceTransparencyEffect.summaryOff = getString(R.string.pref_user_interface_transparency_effect_summary_disabled)
+        preferenceUserInterfaceTransparencyEffect.setDefaultValue(PreferencesHelper.loadUserInterfaceTransparencyEffect())
+
         // set up "Tap Anywhere" preference
         val preferenceEnableTapAnywherePlayback: SwitchPreferenceCompat = SwitchPreferenceCompat(activity as Context)
         preferenceEnableTapAnywherePlayback.title = getString(R.string.pref_tap_anywhere_playback_title)
@@ -268,6 +277,7 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         preferenceCategoryGeneral.title = getString(R.string.pref_general_title)
         preferenceCategoryGeneral.contains(preferenceThemeSelection)
         preferenceCategoryGeneral.contains(preferenceEnableDynamicColors)
+        preferenceCategoryGeneral.contains(preferenceUserInterfaceTransparencyEffect)
         preferenceCategoryGeneral.contains(preferenceEnableTapAnywherePlayback)
 
         val preferenceCategoryMaintenance: PreferenceCategory = PreferenceCategory(activity as Context)
@@ -293,6 +303,7 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
         screen.addPreference(preferenceCategoryGeneral)
         screen.addPreference(preferenceThemeSelection)
         screen.addPreference(preferenceEnableDynamicColors)
+        screen.addPreference(preferenceUserInterfaceTransparencyEffect)
         screen.addPreference(preferenceEnableTapAnywherePlayback)
         screen.addPreference(preferenceCategoryMaintenance)
         screen.addPreference(preferenceUpdateStationImages)
