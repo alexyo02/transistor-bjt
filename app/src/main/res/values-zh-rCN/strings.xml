@@ -113,4 +113,7 @@
     <string name="pref_dynamic_colors_summary_enabled">用户界面元素使用系统强调色。</string>
     <string name="pref_dynamic_colors_summary_disabled">用户界面元素使用应用的默认颜色。</string>
     <string name="descr_expanded_player_streaming_link_icon">注释图标</string>
+    <string name="pref_user_interface_transparency_effect_summary_enabled">滚动时播放控件变透明。</string>
+    <string name="pref_user_interface_transparency_effect_summary_disabled">滚动时播放控件保持不透明。</string>
+    <string name="pref_user_interface_transparency_effect_title">用户界面透明度效果</string>
 </resources>
