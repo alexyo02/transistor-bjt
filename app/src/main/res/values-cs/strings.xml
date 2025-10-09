@@ -111,4 +111,7 @@
     <string name="pref_dynamic_colors_summary_enabled">Používám systémové barvy pro prvky rozhraní.</string>
     <string name="pref_dynamic_colors_summary_disabled">Používám výchozí barvy aplikace pro prvky rozhraní.</string>
     <string name="descr_expanded_player_streaming_link_icon">Ikona poznámky</string>
+    <string name="pref_user_interface_transparency_effect_summary_enabled">Ovládání přehrávání se při posouvání zprůhlední.</string>
+    <string name="pref_user_interface_transparency_effect_summary_disabled">Ovládání přehrávání zůstanou při posouvání neprůhledná.</string>
+    <string name="pref_user_interface_transparency_effect_title">Použít efekt průhlednosti v rozhraní</string>
 </resources>
