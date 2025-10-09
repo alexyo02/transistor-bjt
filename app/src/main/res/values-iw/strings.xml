@@ -107,4 +107,8 @@
     <string name="cast_context_error">שידור התוכן נכשל. כדאי לנסות לעדכן את שירותי Play של Google ולהפעיל את היישומון מחדש.</string>
     <string name="notification_cancel">ביטול</string>
     <string name="descr_back_icon">ניווט חזרה</string>
+    <string name="pref_dynamic_colors_title">צבעים דינמיים</string>
+    <string name="pref_dynamic_colors_summary_enabled">נעשה שימוש בצבע המערכת המשני לרכיבי ממשק משתמש.</string>
+    <string name="pref_dynamic_colors_summary_disabled">נעשה שימוש בצבעי ברירת המחדל לרכיבי ממשק משתמש.</string>
+    <string name="descr_expanded_player_streaming_link_icon">סמל הערה</string>
 </resources>
