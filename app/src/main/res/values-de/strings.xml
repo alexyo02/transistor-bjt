@@ -108,4 +108,11 @@
     <string name="toast_message_error_station_not_found">Sender nicht gefunden.</string>
     <string name="descr_back_icon">Zurück gehen</string>
     <string name="notification_cancel">Abbrechen</string>
+    <string name="pref_dynamic_colors_summary_enabled">Systemakzentfarben für Bedienelemente verwenden.</string>
+    <string name="pref_dynamic_colors_summary_disabled">Standardfarben der App für Bedienelemente verwenden.</string>
+    <string name="pref_dynamic_colors_title">Dynamische Farben</string>
+    <string name="pref_user_interface_transparency_effect_summary_enabled">Wiedergabesteuerungen werden beim Scrollen transparent.</string>
+    <string name="pref_user_interface_transparency_effect_summary_disabled">Wiedergabesteuerungen bleiben beim Scrollen undurchsichtig.</string>
+    <string name="pref_user_interface_transparency_effect_title">Transparenzeffekt der Benutzeroberfläche</string>
+    <string name="descr_expanded_player_streaming_link_icon">Notizsymbol</string>
 </resources>

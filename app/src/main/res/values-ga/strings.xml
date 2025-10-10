@@ -111,4 +111,7 @@
     <string name="pref_dynamic_colors_summary_enabled">Ag baint úsáide as dathanna béime córais le haghaidh eilimintí comhéadain úsáideora.</string>
     <string name="pref_dynamic_colors_summary_disabled">Ag baint úsáide as dathanna réamhshocraithe an aip le haghaidh eilimintí UI.</string>
     <string name="descr_expanded_player_streaming_link_icon">Deilbhín nóta</string>
+    <string name="pref_user_interface_transparency_effect_summary_enabled">Bíonn rialuithe athsheinm trédhearcach agus tú ag scrollú.</string>
+    <string name="pref_user_interface_transparency_effect_summary_disabled">Fanann rialuithe athsheinm teimhneach le linn scrollú.</string>
+    <string name="pref_user_interface_transparency_effect_title">Éifeacht trédhearcachta comhéadain úsáideora</string>
 </resources>
