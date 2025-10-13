@@ -111,4 +111,7 @@
     <string name="pref_dynamic_colors_summary_enabled">Kasutajaliidese elementide kuvamiseks on kasutusel süsteemi aktsentvärvid.</string>
     <string name="pref_dynamic_colors_summary_disabled">Kasutajaliidese elementide kuvamiseks on kasutusel rakenduse vaikimisi värvid.</string>
     <string name="descr_expanded_player_streaming_link_icon">Märkme ikoon</string>
+    <string name="pref_user_interface_transparency_effect_summary_enabled">Taasesituse nupud muutuvad kerimisel läbipaistvaks.</string>
+    <string name="pref_user_interface_transparency_effect_summary_disabled">Taasesituse nupud jäävad kerimisel läbipaistmatuteks.</string>
+    <string name="pref_user_interface_transparency_effect_title">Läbipaistvus kasutajaliideses</string>
 </resources>
