@@ -509,30 +509,21 @@ class SettingsFragment: PreferenceFragmentCompat(), YesNoDialog.YesNoDialogListe
     }
 
 
-    /* Sets up margins/paddings for edge to edge view - for API 35 and above */
+    /* Sets up margins/paddings for edge to edge view */
     private fun setupEdgeToEdge(view: View) {
         val preferencesList: RecyclerView = listView
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-            ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
-                // get measurements for status and navigation bar
-                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
-
-                // apply measurements
-                toolbar.updateLayoutParams<LinearLayout.LayoutParams> {
-                    topMargin = systemBars.top
-                }
-                preferencesList.updatePadding(
-                    bottom = systemBars.bottom + ((Keys.PLAYER_HEIGHT + Keys.PLAYER_BOTTOM_MARGIN) * UiHelper.getDensityScalingFactor(requireContext())).toInt()
-                )
-
-                // return the insets
-                insets
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            // get measurements for status and navigation bar
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            // apply measurements
+            toolbar.updateLayoutParams<LinearLayout.LayoutParams> {
+                topMargin = systemBars.top
             }
-        } else {
-            // make room for the player
             preferencesList.updatePadding(
-                bottom = ((Keys.PLAYER_HEIGHT + Keys.PLAYER_BOTTOM_MARGIN) * UiHelper.getDensityScalingFactor(requireContext())).toInt()
+                bottom = systemBars.bottom + ((Keys.PLAYER_HEIGHT + Keys.PLAYER_BOTTOM_MARGIN) * UiHelper.getDensityScalingFactor(requireContext())).toInt()
             )
+            // return the insets
+            insets
         }
     }
 

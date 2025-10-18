@@ -15,7 +15,6 @@
 package org.y20k.transistor.ui
 
 import android.content.Context
-import android.os.Build
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Group
@@ -116,28 +115,22 @@ data class MainFragmentLayoutHolder(var rootView: View) {
     }
 
 
-
-    /* Sets up margins/paddings for edge to edge view - for API 35 and above */
+    /* Sets up margins/paddings for edge to edge view */
     private fun setupEdgeToEdge() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-            ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
-                // get measurements for status and navigation bar
-                systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
-
-                // update the list padding to position first item below status bar and have enough room at the bottom to show the player
-                recyclerView.updatePadding(
-                    top = systemBars.top,
-                    bottom = systemBars.bottom + ((Keys.PLAYER_HEIGHT + Keys.PLAYER_BOTTOM_MARGIN) * UiHelper.getDensityScalingFactor(rootView.context)).toInt()
-                )
-
-                // update the onboarding layout margin to position it below the status bar
-                onboardingLayout.updateLayoutParams<CoordinatorLayout.LayoutParams> {
-                    topMargin = systemBars.top
-                }
-
-                // return the insets
-                insets
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
+            // get measurements for status and navigation bar
+            systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            // update the list padding to position first item below status bar and have enough room at the bottom to show the player
+            recyclerView.updatePadding(
+                top = systemBars.top,
+                bottom = systemBars.bottom + ((Keys.PLAYER_HEIGHT + Keys.PLAYER_BOTTOM_MARGIN) * UiHelper.getDensityScalingFactor(rootView.context)).toInt()
+            )
+            // update the onboarding layout margin to position it below the status bar
+            onboardingLayout.updateLayoutParams<CoordinatorLayout.LayoutParams> {
+                topMargin = systemBars.top
             }
+            // return the insets
+            insets
         }
     }
 

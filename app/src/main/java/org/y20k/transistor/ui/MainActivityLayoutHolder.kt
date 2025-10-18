@@ -408,28 +408,22 @@ data class MainActivityLayoutHolder (var rootView: View) : MainFragmentLayoutHol
     }
 
 
-    /* Sets up margins/paddings for edge to edge view - for API 35 and above */
+    /* Sets up margins/paddings for edge to edge view */
     private fun setupEdgeToEdge() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-            ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
-                // get measurements for status and navigation bar
-                systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
-
-                // apply measurements
-                downloadProgressIndicator.updateLayoutParams<FrameLayout.LayoutParams> {
-                    topMargin = systemBars.top
-                }
-                playerCardView.updateLayoutParams<FrameLayout.LayoutParams> {
-                    bottomMargin = (Keys.PLAYER_BOTTOM_MARGIN * UiHelper.getDensityScalingFactor(rootView.context)).toInt() + systemBars.bottom
-                }
-
-                // return the insets
-                insets
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
+            // get measurements for status and navigation bar
+            systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            // apply measurements
+            downloadProgressIndicator.updateLayoutParams<FrameLayout.LayoutParams> {
+                topMargin = systemBars.top
             }
-        } else {
-            // deactivate edge to edge for main activity
-            rootView.fitsSystemWindows = true
+            playerCardView.updateLayoutParams<FrameLayout.LayoutParams> {
+                bottomMargin = (Keys.PLAYER_BOTTOM_MARGIN * UiHelper.getDensityScalingFactor(rootView.context)).toInt() + systemBars.bottom
+            }
+            // return the insets
+            insets
         }
+
     }
 
 }
