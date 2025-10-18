@@ -9,7 +9,7 @@
     </style>
 
     <!-- Base application theme -->
-    <style name="AppTheme.Base" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="AppTheme.Base" parent="Theme.Material3Expressive.DayNight.NoActionBar">
         <!-- inject custom layout for preferences -->
         <!-- credit: https://medium.com/@JakobUlbrich/sure-you-can-use-a-custom-layout-for-your-preferencefragmentcompat-318b7fa06e29 -->
         <item name="preferenceFragmentCompatStyle">
