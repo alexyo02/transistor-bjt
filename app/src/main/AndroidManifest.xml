@@ -32,6 +32,7 @@
             android:resource="@mipmap/ic_launcher" />
 
         <!-- Main activity for radio station playback on phone -->
+        <!-- Main activity for radio station playback on phone -->
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
@@ -49,7 +50,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
-            <!-- react to playlist-links based on file extension -->
+            <!-- Filter 1: HTTP/HTTPS with file extensions -->
+            <!-- Note to self: pathPattern is tricky - focusing on MIME types is more reliable -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -62,37 +64,136 @@
                 <data android:pathPattern=".*\\.pls" />
             </intent-filter>
 
-            <!-- react to playlist-links based on mimetype -->
+            <!-- Filter 2: HTTP/HTTPS by MIME type - audio/x-scpls -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="http" />
                 <data android:scheme="https" />
-                <data android:host="*" />
                 <data android:mimeType="audio/x-scpls" />
-                <data android:mimeType="audio/mpegurl" />
-                <data android:mimeType="audio/x-mpegurl" />
-                <data android:mimeType="application/pls+xml" />
-                <data android:mimeType="application/x-mpegurl" />
-                <data android:mimeType="application/vnd.apple.mpegurl" />
-                <data android:mimeType="application/vnd.apple.mpegurl.audio" />
-                <data android:mimeType="application/octet-stream" />
             </intent-filter>
 
-            <!-- react to hls playlist-links based on mimetype -->
+            <!-- Filter 3: HTTP/HTTPS by MIME type - audio/mpegurl -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:mimeType="audio/mpegurl" />
+            </intent-filter>
+
+            <!-- Filter 4: HTTP/HTTPS by MIME type - audio/x-mpegurl -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:mimeType="audio/x-mpegurl" />
+            </intent-filter>
+
+            <!-- Filter 5: HTTP/HTTPS by MIME type - application/pls+xml -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:mimeType="application/pls+xml" />
+            </intent-filter>
+
+            <!-- Filter 6: HTTP/HTTPS by MIME type - application/x-mpegurl -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:mimeType="application/x-mpegurl" />
+            </intent-filter>
+
+            <!-- Filter 7: HTTP/HTTPS by MIME type - application/vnd.apple.mpegurl -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:mimeType="application/vnd.apple.mpegurl" />
+            </intent-filter>
+
+            <!-- Filter 8: HTTP/HTTPS by MIME type - application/vnd.apple.mpegurl.audio -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:mimeType="application/vnd.apple.mpegurl.audio" />
+            </intent-filter>
+
+            <!-- Filter 9: Local files (content://) by MIME type - audio/x-scpls -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="content" />
-                <data android:host="*" />
                 <data android:mimeType="audio/x-scpls" />
+            </intent-filter>
+
+            <!-- Filter 10: Local files (content://) by MIME type - audio/mpegurl -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
                 <data android:mimeType="audio/mpegurl" />
+            </intent-filter>
+
+            <!-- Filter 11: Local files (content://) by MIME type - audio/x-mpegurl -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
                 <data android:mimeType="audio/x-mpegurl" />
+            </intent-filter>
+
+            <!-- Filter 12: Local files (content://) by MIME type - application/pls+xml -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
                 <data android:mimeType="application/pls+xml" />
+            </intent-filter>
+
+            <!-- Filter 13: Local files (content://) by MIME type - application/x-mpegurl -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
                 <data android:mimeType="application/x-mpegurl" />
+            </intent-filter>
+
+            <!-- Filter 14: Local files (content://) by MIME type - application/vnd.apple.mpegurl -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
                 <data android:mimeType="application/vnd.apple.mpegurl" />
+            </intent-filter>
+
+            <!-- Filter 15: Local files (content://) by MIME type - application/vnd.apple.mpegurl.audio -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
                 <data android:mimeType="application/vnd.apple.mpegurl.audio" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
             </intent-filter>
 
             <!-- react to "start player service" intents -->

@@ -36,14 +36,22 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.y20k.transistor.core.Collection
 import org.y20k.transistor.core.Station
 import org.y20k.transistor.extensions.cancelSleepTimer
 import org.y20k.transistor.extensions.play
+import org.y20k.transistor.extensions.playStreamDirectly
 import org.y20k.transistor.extensions.requestMetadataHistory
 import org.y20k.transistor.extensions.requestSleepTimerRemaining
 import org.y20k.transistor.extensions.requestSleepTimerRunning
 import org.y20k.transistor.extensions.startSleepTimer
 import org.y20k.transistor.helpers.AppThemeHelper
+import org.y20k.transistor.helpers.CollectionHelper
 import org.y20k.transistor.helpers.FileHelper
 import org.y20k.transistor.helpers.ImportHelper
 import org.y20k.transistor.helpers.PreferencesHelper
@@ -216,6 +224,8 @@ abstract class BaseMainActivity : AppCompatActivity(), SharedPreferences.OnShare
         val controller: MediaController = this.controller ?: return
         controller.addListener(playerListener)
         requestMetadataUpdate()
+        // handle start intent
+        handleStartIntent()
         // wire up the playback controls
         setupPlaybackControls()
         // update play button state
@@ -308,6 +318,39 @@ abstract class BaseMainActivity : AppCompatActivity(), SharedPreferences.OnShare
         } else {
             handler.removeCallbacks(periodicSleepTimerUpdateRequestRunnable)
             layout.sleepTimerRunningViews.visibility = View.GONE
+        }
+    }
+
+
+    /* Handles this activity's start intent */
+    private fun handleStartIntent() {
+        if (intent.action != null) {
+            when (intent.action) {
+                Keys.ACTION_START -> handleStartPlayer()
+                // Intent.ACTION_VIEW is handled in MainFragment
+            }
+        }
+    }
+
+
+    /* Handles START_PLAYER_SERVICE request from App Shortcut */
+    private fun handleStartPlayer() {
+        // clear intent action to prevent double calls
+        intent.action = ""
+        // get intent extra
+        if (intent.hasExtra(Keys.EXTRA_START_LAST_PLAYED_STATION)) {
+            controller?.play(this, playerState.stationPosition)
+        } else if (intent.hasExtra(Keys.EXTRA_STATION_UUID)) {
+            val uuid: String = intent.getStringExtra(Keys.EXTRA_STATION_UUID) ?: String()
+            CoroutineScope(IO).launch {
+                val collection: Collection = FileHelper.readCollection(getApplication())
+                withContext(Main) {
+                    controller?.play(this@BaseMainActivity, CollectionHelper.getStationPosition(collection, uuid))
+                }
+            }
+        } else if (intent.hasExtra(Keys.EXTRA_STREAM_URI)) {
+            val streamUri: String = intent.getStringExtra(Keys.EXTRA_STREAM_URI) ?: String()
+            controller?.playStreamDirectly(streamUri)
         }
     }
 

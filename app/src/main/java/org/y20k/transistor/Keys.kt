@@ -194,6 +194,8 @@ object Keys {
     const val STATION_SMALL_IMAGE_FILE: String = "station-image-small.jpg"
     const val DEBUG_LOG_FILE: String = "log-can-be-deleted.txt"
     const val TRANSISTOR_LEGACY_STATION_FILE_EXTENSION: String = ".m3u"
+    val FILE_EXTENSIONS_PLAYLIST = arrayOf(".m3u", ".pls", ".m3u8")
+
 
     // server addresses
     const val RADIO_BROWSER_API_BASE: String = "all.api.radio-browser.info"

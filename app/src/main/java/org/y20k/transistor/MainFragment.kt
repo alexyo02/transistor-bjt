@@ -157,6 +157,8 @@ class MainFragment: Fragment(),
         observeCollectionViewModel()
         // handle navigation arguments
         handleNavigationArguments()
+        // handle start intent
+        handleStartIntent()
         // set up list drag listener
         val mainActivity = activity as? BaseMainActivity
         if (mainActivity != null) {
@@ -350,46 +352,77 @@ class MainFragment: Fragment(),
         if ((activity as Activity).intent.action != null) {
             when ((activity as Activity).intent.action) {
                 Intent.ACTION_VIEW -> handleViewIntent()
-                Keys.ACTION_SHOW_PLAYER, Keys.ACTION_START -> {
-                    // These actions are now handled by the activity
-                    val mainActivity = activity as? BaseMainActivity
-                    if (mainActivity != null) {
-                        // Just log that we're forwarding the intent
-                        Log.i(TAG, "Forwarding player intent to activity")
-                    }
-                }
+                Intent.ACTION_SEND -> handleSendIntent()
+                // Keys.ACTION_START is handled in BaseMainActivity
             }
+        }
+    }
+
+
+    /* Handles ACTION_SEND request to add Station */
+    private fun handleSendIntent() {
+        // get intent data
+        val intentUriString: String? = (activity as Activity).intent.getStringExtra(Intent.EXTRA_TEXT)
+        if (intentUriString.isNullOrEmpty()) {
+            return
+        }
+        // attempt to parse given string into a Uri
+        val intentUri: Uri? = try {
+            intentUriString.toUri()
+        } catch (e: Exception) {
+            Log.e(TAG, "Could not parse the intent string as a URI: $intentUriString")
+            null
         }
         // clear intent action to prevent double calls
         (activity as Activity).intent.action = ""
+        // add station from intent, if it ends with a supported file extension
+        if (intentUri != null) {
+            val lowercaseIntentUriString: String = intentUri.toString().lowercase()
+            val isPlaylistUri: Boolean = Keys.FILE_EXTENSIONS_PLAYLIST.any { extension ->
+                lowercaseIntentUriString.endsWith(extension) ||
+                lowercaseIntentUriString.contains("$extension?") ||
+                lowercaseIntentUriString.contains("$extension#") }
+            if (isPlaylistUri) {
+                addStationFromIntent(intentUri)
+            }
+        }
     }
 
 
     /* Handles ACTION_VIEW request to add Station */
     private fun handleViewIntent() {
+        // get intent data
         val intentUri: Uri? = (activity as Activity).intent.data
+        // clear intent action to prevent double calls
+        (activity as Activity).intent.action = ""
         if (intentUri != null) {
-            CoroutineScope(IO).launch {
-                // get station list from intent source
-                val stationList: MutableList<Station> = mutableListOf()
-                val scheme: String = intentUri.scheme ?: String()
-                // CASE: intent is a web link
-                if (scheme.startsWith("http")) {
-                    Log.i(TAG, "Transistor was started to handle a web link.")
-                    stationList.addAll(CollectionHelper.createStationsFromUrl(intentUri.toString()))
-                }
-                // CASE: intent is a local file
-                else if (scheme.startsWith("content")) {
-                    Log.i(TAG, "Transistor was started to handle a local audio playlist.")
-                    stationList.addAll(CollectionHelper.createStationListFromContentUri(requireContext(), intentUri))
-                }
-                withContext(Main) {
-                    if (stationList.isNotEmpty()) {
-                        AddStationDialog(activity as Activity, stationList, this@MainFragment as AddStationDialog.AddStationDialogListener).show()
-                    } else {
-                        // invalid address
-                        Toast.makeText(context, R.string.toast_message_station_not_valid, Toast.LENGTH_LONG).show()
-                    }
+            addStationFromIntent(intentUri)
+        }
+    }
+
+
+    /* Handles add station requests that come in via intent */
+    private fun addStationFromIntent(intentUri: Uri) {
+        CoroutineScope(IO).launch {
+            // get station list from intent source
+            val stationList: MutableList<Station> = mutableListOf()
+            val scheme: String = intentUri.scheme ?: String()
+            // CASE: intent is a web link
+            if (scheme.startsWith("http")) {
+                Log.i(TAG, "Transistor was started to handle a web link.")
+                stationList.addAll(CollectionHelper.createStationsFromUrl(intentUri.toString()))
+            }
+            // CASE: intent is a local file
+            else if (scheme.startsWith("content")) {
+                Log.i(TAG, "Transistor was started to handle a local audio playlist.")
+                stationList.addAll(CollectionHelper.createStationListFromContentUri(requireContext(), intentUri))
+            }
+            withContext(Main) {
+                if (stationList.isNotEmpty()) {
+                    AddStationDialog(activity as Activity, stationList, this@MainFragment as AddStationDialog.AddStationDialogListener).show()
+                } else {
+                    // invalid address
+                    Toast.makeText(context, R.string.toast_message_station_not_valid, Toast.LENGTH_LONG).show()
                 }
             }
         }
