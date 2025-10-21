@@ -327,7 +327,7 @@ abstract class BaseMainActivity : AppCompatActivity(), SharedPreferences.OnShare
         if (intent.action != null) {
             when (intent.action) {
                 Keys.ACTION_START -> handleStartPlayer()
-                // Intent.ACTION_VIEW is handled in MainFragment
+                // Intent.ACTION_VIEW and Intent.ACTION_SEND are handled in MainFragment
             }
         }
     }
