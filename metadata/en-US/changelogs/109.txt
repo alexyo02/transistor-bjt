@@ -2,5 +2,5 @@
 
 **2025-10-21**
 - fixed a bug with home screen shortcuts (playback did not start automatically)
-- enabled edge-to-edge display also for Android versions
+- enabled edge-to-edge display also for older Android versions
 - updated translations
