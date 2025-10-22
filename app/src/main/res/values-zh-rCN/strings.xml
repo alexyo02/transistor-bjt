@@ -5,7 +5,7 @@
     <!-- please do not translate app_name - transcription into different alphabet types is fine though -->
     <string name="fragment_settings_title">设置</string>
     <string name="dialog_error_message_default">发生错误</string>
-    <string name="dialog_error_message_no_network">已连接到互联网。</string>
+    <string name="dialog_error_message_no_network">连接至互联网。</string>
     <string name="dialog_error_title_no_network">离线</string>
     <string name="dialog_find_station_button_add">添加</string>
     <string name="dialog_find_station_hint">名称或流媒体地址</string>
@@ -76,7 +76,7 @@
     <string name="toast_message_sleep_timer_unable_to_start">请先开始回放。</string>
     <string name="toast_message_no_image_picker">无可用图片选择器。请考虑安装图库应用。</string>
     <string name="notification_stop">停止</string>
-    <string name="dialog_edit_stream_uri">在线播放地址</string>
+    <string name="dialog_edit_stream_uri">流媒体地址</string>
     <string name="pref_advanced_title">高级</string>
     <string name="pref_edit_station_title">编辑电台</string>
     <string name="pref_edit_station_stream_summary_enabled">已启用流媒体链接编辑。请确保输入地址正确。</string>
@@ -98,7 +98,7 @@
     <string name="pref_buffer_size_summary_enabled">已启用更大缓冲播放电台流媒体。这可能使开始播放需要更长时间。</string>
     <string name="pref_buffer_size_title">使用更大缓冲</string>
     <string name="pref_tap_anywhere_playback_summary_disabled">点击播放按钮，收听广播电台。</string>
-    <string name="pref_tap_anywhere_playback_summary_enabled">点击广播电台任意部位即可开始收听。</string>
+    <string name="pref_tap_anywhere_playback_summary_enabled">点击广播电台任意部位开始收听。</string>
     <string name="pref_tap_anywhere_playback_title">点击广播电台</string>
     <string name="descr_expanded_player_metadata_copy_button">复制当前播放信息</string>
     <string name="descr_expanded_player_metadata_next_button">当前播放元数据的下一条</string>
@@ -108,12 +108,12 @@
     <string name="toast_message_error_station_not_found">未找到电台。</string>
     <string name="notification_cancel">取消</string>
     <string name="descr_back_icon">返回</string>
-    <string name="cast_context_error">获取 Cast 上下文失败。试着更新 Google Play 服务并重启应用。</string>
+    <string name="cast_context_error">未能获取Cast上下文。尝试更新Google Play服务并重启app。</string>
     <string name="pref_dynamic_colors_title">动态颜色</string>
     <string name="pref_dynamic_colors_summary_enabled">用户界面元素使用系统强调色。</string>
     <string name="pref_dynamic_colors_summary_disabled">用户界面元素使用应用的默认颜色。</string>
     <string name="descr_expanded_player_streaming_link_icon">注释图标</string>
     <string name="pref_user_interface_transparency_effect_summary_enabled">滚动时播放控件变透明。</string>
     <string name="pref_user_interface_transparency_effect_summary_disabled">滚动时播放控件保持不透明。</string>
-    <string name="pref_user_interface_transparency_effect_title">用户界面透明度效果</string>
+    <string name="pref_user_interface_transparency_effect_title">用户界面透明效果</string>
 </resources>

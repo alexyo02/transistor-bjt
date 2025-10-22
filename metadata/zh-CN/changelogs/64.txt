@@ -2,7 +2,7 @@
 
 **2018-11-19**
 
-- 新应用图标（感谢@munadikieh）
+- 新app图标（感谢@munadikieh）
 - 改进了来自radio-browser.info的链接处理方式
-- 用户界面采用全新配色方案
+- UI采用新的配色方案
 - 错误修复
