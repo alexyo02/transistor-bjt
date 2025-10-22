@@ -108,7 +108,7 @@
     <string name="toast_message_error_station_not_found">未找到电台。</string>
     <string name="notification_cancel">取消</string>
     <string name="descr_back_icon">返回</string>
-    <string name="cast_context_error">获取 Cast 上下文失败。试着更新 Google Play 服务并重启应用。</string>
+    <string name="cast_context_error">Failed to get Cast context. Try updating Google Play Services and restart the app.</string>
     <string name="pref_dynamic_colors_title">动态颜色</string>
     <string name="pref_dynamic_colors_summary_enabled">用户界面元素使用系统强调色。</string>
     <string name="pref_dynamic_colors_summary_disabled">用户界面元素使用应用的默认颜色。</string>
