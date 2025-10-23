@@ -193,10 +193,11 @@ object FileHelper {
         val file: File = File(context.getExternalFilesDir(determineDestinationFolderPath(Keys.FILE_TYPE_IMAGE, station.uuid)), fileName)
         // load and scale the image
         try {
+            val stationImageFile = File(station.image.toUri().path ?: "")
             val bitmap = Glide.with(context)
                 .asBitmap()
                 .load(sourceImageUri)
-                .signature(ObjectKey(station.modificationDate.time))
+                .signature(ObjectKey(stationImageFile.length()))
                 .override(size, size)
                 .centerCrop()
                 .error(R.drawable.ic_default_station_image_64dp)

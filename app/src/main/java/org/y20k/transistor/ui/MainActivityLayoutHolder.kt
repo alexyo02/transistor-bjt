@@ -30,6 +30,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.Group
 import androidx.core.graphics.Insets
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
@@ -46,6 +47,7 @@ import org.y20k.transistor.core.Station
 import org.y20k.transistor.helpers.DateTimeHelper
 import org.y20k.transistor.helpers.PreferencesHelper
 import org.y20k.transistor.helpers.UiHelper
+import java.io.File
 
 
 /*
@@ -178,9 +180,10 @@ data class MainActivityLayoutHolder (var rootView: View) : MainFragmentLayoutHol
         stationNameView.text = station.name
 
         // update cover
+        val stationImageFile = File(station.image.toUri().path ?: "")
         Glide.with(context)
             .load(station.image)
-            .signature(ObjectKey(station.modificationDate.time))
+            .signature(ObjectKey(stationImageFile.length()))
             .error(R.drawable.ic_default_station_image_64dp)
             .into(stationImageView)
         if (station.imageColor != -1) {

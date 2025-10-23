@@ -59,6 +59,7 @@ import org.y20k.transistor.helpers.PreferencesHelper
 import org.y20k.transistor.helpers.ShortcutHelper
 import org.y20k.transistor.helpers.UiHelper
 import org.y20k.transistor.helpers.UpdateHelper
+import java.io.File
 import java.util.GregorianCalendar
 import java.util.Locale
 
@@ -288,9 +289,10 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
 
     /* Sets the station image view */
     private fun setStationImage(stationViewHolder: StationViewHolder, station: Station, position: Int) {
+        val stationImageFile = File(station.image.toUri().path ?: "")
         Glide.with(context)
             .load(station.image)
-            .signature(ObjectKey(station.modificationDate.time))
+            .signature(ObjectKey(stationImageFile.length()))
             .placeholder(R.drawable.ic_default_station_image_64dp)
             .error(R.drawable.ic_default_station_image_64dp)
             .into(stationViewHolder.stationImageView)
