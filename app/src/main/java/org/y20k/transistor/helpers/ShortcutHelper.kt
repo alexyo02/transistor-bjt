@@ -23,6 +23,7 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -51,7 +52,7 @@ object ShortcutHelper {
                 val shortcut: ShortcutInfoCompat = ShortcutInfoCompat.Builder(context, station.name)
                     .setShortLabel(station.name)
                     .setLongLabel(station.name)
-                    .setIcon(createShortcutIcon(context, station.image, station.imageColor))
+                    .setIcon(createShortcutIcon(context, station))
                     .setIntent(createShortcutIntent(context, station.uuid))
                     .build()
                 withContext(Main) {
@@ -98,31 +99,33 @@ object ShortcutHelper {
 
 
     /* Create shortcut icon */
-    private fun createShortcutIcon(context: Context, stationImage: String, stationImageColor: Int): IconCompat {
+    private fun createShortcutIcon(context: Context, station: Station): IconCompat {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // shortcut icon for Android 8+
             val iconSize: Int = (108 * UiHelper.getDensityScalingFactor(context)).toInt()
             val stationImageBitmap: Bitmap = Glide.with(context)
                 .asBitmap()
-                .load(stationImage)
+                .load(station.image)
+                .signature(ObjectKey(station.modificationDate.time))
                 .error(R.drawable.ic_default_station_image_64dp)
                 .override(iconSize, iconSize)
                 .fitCenter()
                 .submit()
                 .get() // this blocks until the image is loaded - use only on background thread
-            IconCompat.createWithAdaptiveBitmap(UiHelper.createSquareImage(stationImageBitmap, stationImageColor, iconSize, true))
+            IconCompat.createWithAdaptiveBitmap(UiHelper.createSquareImage(stationImageBitmap, station.imageColor, iconSize, true))
         } else {
             // legacy shortcut icon
             val iconSize: Int = (48 * UiHelper.getDensityScalingFactor(context)).toInt()
             val stationImageBitmap: Bitmap = Glide.with(context)
                 .asBitmap()
-                .load(stationImage)
+                .load(station.image)
+                .signature(ObjectKey(station.modificationDate.time))
                 .error(R.drawable.ic_default_station_image_64dp)
                 .override(iconSize, iconSize)
                 .fitCenter()
                 .submit()
                 .get() // this blocks until the image is loaded - use only on background thread
-            IconCompat.createWithAdaptiveBitmap(UiHelper.createSquareImage(stationImageBitmap, stationImageColor, iconSize, true))
+            IconCompat.createWithAdaptiveBitmap(UiHelper.createSquareImage(stationImageBitmap, station.imageColor, iconSize, true))
         }
     }
 

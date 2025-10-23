@@ -27,6 +27,7 @@ import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import org.y20k.transistor.Keys
@@ -188,13 +189,14 @@ object FileHelper {
 
 
     /* Creates and save a scaled version of the station image */
-    fun saveStationImage(context: Context, podcastName: String, sourceImageUri: String, size: Int, fileName: String): Uri {
-        val file: File = File(context.getExternalFilesDir(determineDestinationFolderPath(Keys.FILE_TYPE_IMAGE, podcastName)), fileName)
+    fun saveStationImage(context: Context, station: Station, sourceImageUri: String, size: Int, fileName: String): Uri {
+        val file: File = File(context.getExternalFilesDir(determineDestinationFolderPath(Keys.FILE_TYPE_IMAGE, station.uuid)), fileName)
         // load and scale the image
         try {
             val bitmap = Glide.with(context)
                 .asBitmap()
                 .load(sourceImageUri)
+                .signature(ObjectKey(station.modificationDate.time))
                 .override(size, size)
                 .centerCrop()
                 .error(R.drawable.ic_default_station_image_64dp)

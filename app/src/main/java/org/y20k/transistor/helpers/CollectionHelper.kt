@@ -28,7 +28,9 @@ import androidx.media3.common.MediaMetadata
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.y20k.transistor.Keys
 import org.y20k.transistor.R
 import org.y20k.transistor.core.Collection
@@ -92,13 +94,13 @@ object CollectionHelper {
     fun createStationFromPlaylistFile(context: Context, localFileUri: Uri, remoteFileLocation: String): Station {
         // read station playlist
         val station: Station = FileHelper.readStationPlaylist(context.contentResolver.openInputStream(localFileUri))
+        station.modificationDate = GregorianCalendar.getInstance().time
         if (station.name.isEmpty()) {
             // construct name from file name - strips file extension
             station.name = FileHelper.getFileName(context, localFileUri).substringBeforeLast(".")
         }
         station.remoteStationLocation = remoteFileLocation
         station.remoteImageLocation = CollectionHelper.getFaviconAddress(remoteFileLocation)
-        station.modificationDate = GregorianCalendar.getInstance().time
         return station
     }
 
@@ -111,6 +113,7 @@ object CollectionHelper {
         if (station.radioBrowserStationUuid.isNotEmpty()) {
             updatedCollection.stations.forEach { it ->
                 if (it.radioBrowserStationUuid.equals(station.radioBrowserStationUuid)) {
+                    it.modificationDate = GregorianCalendar.getInstance().time
                     // update station in collection with values from new station
                     it.streamUris[it.stream] = station.getStreamUri()
                     it.streamContent = station.streamContent
@@ -132,6 +135,7 @@ object CollectionHelper {
         else if (station.remoteStationLocation.isNotEmpty()) {
             updatedCollection.stations.forEach { it ->
                 if (it.remoteStationLocation.equals(station.remoteStationLocation)) {
+                    it.modificationDate = GregorianCalendar.getInstance().time
                     // update stream uri, mime type and station image url
                     it.streamUris[it.stream] = station.getStreamUri()
                     it.streamContent = station.streamContent
@@ -183,19 +187,23 @@ object CollectionHelper {
 
 
     /* Sets station image - determines station by remote image file location */
-    fun setStationImageWithStationUuid(context: Context, collection: Collection, tempImageFileUri: String, stationUuid: String, imageManuallySet: Boolean = false): Collection {
-        collection.stations.forEach { station ->
-            // find station by uuid
-            if (station.uuid == stationUuid) {
-                station.smallImage = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri, Keys.SIZE_STATION_IMAGE_SMALL, Keys.STATION_SMALL_IMAGE_FILE).toString()
-                station.image = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri, Keys.SIZE_STATION_IMAGE, Keys.STATION_IMAGE_FILE).toString()
-                station.imageColor = UiHelper.getMainColor(context, tempImageFileUri)
-                station.imageManuallySet = imageManuallySet
+    fun setStationImageWithStationUuid(context: Context, collection: Collection, tempImageFileUri: String, stationUuid: String, imageManuallySet: Boolean = false) {
+        CoroutineScope(IO).launch {
+           collection.stations.forEach { station ->
+                // find station by uuid
+                if (station.uuid == stationUuid) {
+                    station.modificationDate = GregorianCalendar.getInstance().time
+                    station.smallImage = FileHelper.saveStationImage(context, station, tempImageFileUri, Keys.SIZE_STATION_IMAGE_SMALL, Keys.STATION_SMALL_IMAGE_FILE).toString()
+                    station.image = FileHelper.saveStationImage(context, station, tempImageFileUri, Keys.SIZE_STATION_IMAGE, Keys.STATION_IMAGE_FILE).toString()
+                    station.imageColor = UiHelper.getMainColor(context, tempImageFileUri)
+                    station.imageManuallySet = imageManuallySet
+                }
+            }
+            // save collection
+            withContext(Main) {
+                saveCollection(context, collection)
             }
         }
-        // save and return collection
-        saveCollection(context, collection)
-        return collection
     }
 
 

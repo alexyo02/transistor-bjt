@@ -32,6 +32,7 @@ import org.y20k.transistor.core.Collection
 import org.y20k.transistor.core.Station
 import org.y20k.transistor.extensions.copy
 import java.util.Date
+import java.util.GregorianCalendar
 import java.util.StringTokenizer
 
 
@@ -133,8 +134,9 @@ object DownloadHelper {
             collection.stations.forEach { station ->
                 // compare image location protocol-agnostic (= without http / https)
                 if (station.remoteImageLocation.substringAfter(":") == remoteFileLocation.substringAfter(":")) {
-                    station.smallImage = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri.toString(), Keys.SIZE_STATION_IMAGE_SMALL, Keys.STATION_SMALL_IMAGE_FILE).toString()
-                    station.image = FileHelper.saveStationImage(context, station.uuid, tempImageFileUri, Keys.SIZE_STATION_IMAGE, Keys.STATION_IMAGE_FILE).toString()
+                    station.modificationDate = GregorianCalendar.getInstance().time
+                    station.smallImage = FileHelper.saveStationImage(context, station, tempImageFileUri.toString(), Keys.SIZE_STATION_IMAGE_SMALL, Keys.STATION_SMALL_IMAGE_FILE).toString()
+                    station.image = FileHelper.saveStationImage(context, station, tempImageFileUri, Keys.SIZE_STATION_IMAGE, Keys.STATION_IMAGE_FILE).toString()
                     station.imageColor = UiHelper.getMainColor(context, tempImageFileUri)
                     station.imageManuallySet = imageManuallySet
                 }
@@ -144,7 +146,6 @@ object DownloadHelper {
                 CollectionHelper.saveCollection(context, collection)
             }
         }
-
     }
 
 

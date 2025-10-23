@@ -178,7 +178,7 @@ class MainFragment: Fragment(),
         if (result.resultCode == RESULT_OK && result.data != null) {
             val imageUri: Uri? = result.data?.data
             if (imageUri != null) {
-                collection = CollectionHelper.setStationImageWithStationUuid(requireContext(), collection, imageUri.toString(), tempStationUuid, imageManuallySet = true)
+                CollectionHelper.setStationImageWithStationUuid(requireContext(), collection, imageUri.toString(), tempStationUuid, imageManuallySet = true)
                 tempStationUuid = String()
             }
         }

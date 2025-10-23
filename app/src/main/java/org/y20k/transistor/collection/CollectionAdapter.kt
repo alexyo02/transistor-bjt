@@ -39,6 +39,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.CoroutineScope
@@ -58,6 +59,7 @@ import org.y20k.transistor.helpers.PreferencesHelper
 import org.y20k.transistor.helpers.ShortcutHelper
 import org.y20k.transistor.helpers.UiHelper
 import org.y20k.transistor.helpers.UpdateHelper
+import java.util.GregorianCalendar
 import java.util.Locale
 
 
@@ -288,6 +290,7 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
     private fun setStationImage(stationViewHolder: StationViewHolder, station: Station, position: Int) {
         Glide.with(context)
             .load(station.image)
+            .signature(ObjectKey(station.modificationDate.time))
             .placeholder(R.drawable.ic_default_station_image_64dp)
             .error(R.drawable.ic_default_station_image_64dp)
             .into(stationViewHolder.stationImageView)
@@ -469,6 +472,7 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
         // update station name and stream uri
         collection.stations.forEach {
             if (it.uuid == station.uuid) {
+                it.modificationDate = GregorianCalendar.getInstance().time
                 if (stationName.isNotEmpty()) {
                     it.name = stationName
                     it.nameManuallySet = true

@@ -62,6 +62,7 @@ object ImportHelper {
                     if (file.name.endsWith(Keys.TRANSISTOR_LEGACY_STATION_FILE_EXTENSION)) {
                         // read stream uri and name
                         val station: Station = FileHelper.readStationPlaylist(file.inputStream())
+                        station.modificationDate = GregorianCalendar.getInstance().time
                         station.nameManuallySet = true
                         // detect stream content
                         station.streamContent = NetworkHelper.detectContentType(station.getStreamUri()).type
@@ -69,8 +70,8 @@ object ImportHelper {
                         val sourceImageUri: String = getLegacyStationImageFileUri(context, station)
                         if (sourceImageUri.isNotEmpty()) {
                             // create and add image and small image + get main color
-                            station.image = FileHelper.saveStationImage(context, station.uuid, sourceImageUri, Keys.SIZE_STATION_IMAGE, Keys.STATION_SMALL_IMAGE_FILE).toString()
-                            station.smallImage = FileHelper.saveStationImage(context, station.uuid, sourceImageUri, Keys.SIZE_STATION_IMAGE_SMALL, Keys.STATION_IMAGE_FILE).toString()
+                            station.image = FileHelper.saveStationImage(context, station, sourceImageUri, Keys.SIZE_STATION_IMAGE, Keys.STATION_SMALL_IMAGE_FILE).toString()
+                            station.smallImage = FileHelper.saveStationImage(context, station, sourceImageUri, Keys.SIZE_STATION_IMAGE_SMALL, Keys.STATION_IMAGE_FILE).toString()
                             station.imageColor = UiHelper.getMainColor(context, sourceImageUri)
                             station.imageManuallySet = true
                         }
@@ -79,7 +80,6 @@ object ImportHelper {
                             station.name = file.name.substring(0, file.name.lastIndexOf("."))
                             station.nameManuallySet = false
                         }
-                        station.modificationDate = GregorianCalendar.getInstance().time
                         // add station
                         oldStations.add(station)
                         success = true

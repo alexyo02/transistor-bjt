@@ -37,6 +37,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.google.android.material.card.MaterialCardView
 import org.y20k.transistor.Keys
 import org.y20k.transistor.R
@@ -179,6 +180,7 @@ data class MainActivityLayoutHolder (var rootView: View) : MainFragmentLayoutHol
         // update cover
         Glide.with(context)
             .load(station.image)
+            .signature(ObjectKey(station.modificationDate.time))
             .error(R.drawable.ic_default_station_image_64dp)
             .into(stationImageView)
         if (station.imageColor != -1) {
