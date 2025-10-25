@@ -215,7 +215,7 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
         stationViewHolder.stationUriEditView.setText(station.getStreamUri(), TextView.BufferType.EDITABLE)
         stationViewHolder.stationUriEditView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                handleStationUriInput(stationViewHolder, s, station.getStreamUri())
+                handleStationUriInput(stationViewHolder, s, station)
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {  }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {  }
@@ -228,7 +228,8 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
         stationViewHolder.saveButton.setOnClickListener {
             val position: Int = stationViewHolder.adapterPosition
             toggleEditViews(position, station.uuid)
-            saveStation(station, position, stationViewHolder.stationNameEditView.text.toString(), stationViewHolder.stationUriEditView.text.toString())
+            val streamContent: String = stationViewHolder.saveButton.getTag(R.id.station_stream_content_type) as String
+            saveStation(station, position, stationViewHolder.stationNameEditView.text.toString(), stationViewHolder.stationUriEditView.text.toString(), streamContent = streamContent)
             UiHelper.hideSoftKeyboard(context, stationViewHolder.stationNameEditView)
         }
         stationViewHolder.placeOnHomeScreenButton.setOnClickListener {
@@ -346,16 +347,18 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
     }
 
 
-    /* Checks if stream uri input is valid */
-    private fun handleStationUriInput(stationViewHolder: StationViewHolder, s: Editable?, streamUri: String) {
+    /* Checks if stream uri input is valid - a bit hacky: attach the detected content type as a tag to the save button */
+    private fun handleStationUriInput(stationViewHolder: StationViewHolder, s: Editable?, station: Station) {
         if (editStationStreamsEnabled) {
             val input: String = s.toString()
-            if (input == streamUri) {
+            if (input == station.getStreamUri()) {
                 // enable save button
                 stationViewHolder.saveButton.isEnabled = true
+                stationViewHolder.saveButton.setTag(R.id.station_stream_content_type, station.streamContent)
             } else {
                 // 1. disable save button
                 stationViewHolder.saveButton.isEnabled = false
+                stationViewHolder.saveButton.setTag(R.id.station_stream_content_type, String())
                 // 2. check for valid station uri - and re-enable button
                 if (input.startsWith("http")) {
                     // detect content type on background thread
@@ -369,6 +372,7 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
                             // re-enable save button
                             withContext(Main) {
                                 stationViewHolder.saveButton.isEnabled = true
+                                stationViewHolder.saveButton.setTag(R.id.station_stream_content_type, contentType)
                             }
                         }
                     }
@@ -470,7 +474,7 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
 
 
     /* Saves edited station */
-    private fun saveStation(station: Station, position: Int, stationName:String, streamUri: String) {
+    private fun saveStation(station: Station, position: Int, stationName:String, streamUri: String, streamContent: String) {
         // update station name and stream uri
         collection.stations.forEach {
             if (it.uuid == station.uuid) {
@@ -482,6 +486,7 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
                 if (streamUri.isNotEmpty()) {
                     it.streamUris[0] = streamUri
                 }
+                it.streamContent = streamContent
             }
         }
         // sort and save collection
@@ -593,6 +598,7 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
         val placeOnHomeScreenButton: MaterialButton = stationCardLayout.findViewById(R.id.place_on_home_screen_button)
         val cancelButton: MaterialButton = stationCardLayout.findViewById(R.id.cancel_button)
         val saveButton: MaterialButton = stationCardLayout.findViewById(R.id.save_button)
+        var streamContent: String = Keys.MIME_TYPE_UNSUPPORTED
     }
     /*
      * End of inner class

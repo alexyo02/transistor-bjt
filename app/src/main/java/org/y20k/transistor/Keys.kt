@@ -67,7 +67,7 @@ object Keys {
     const val KEY_DOWNLOAD_WORK_REQUEST: String = "DOWNLOAD_WORK_REQUEST"
     const val KEY_SAVE_INSTANCE_STATE_STATION_LIST: String = "SAVE_INSTANCE_STATE_STATION_LIST"
     const val KEY_STREAM_URI: String = "STREAM_URI"
-    const val KEY_ORIGINAL_ARTWORK_URI = "ORIGINAL_ARTWORK_URI"
+    const val KEY_ORIGINAL_ARTWORK_URI: String = "ORIGINAL_ARTWORK_URI"
 
     // custom MediaController commands
     const val CMD_RELOAD_PLAYER_STATE: String = "RELOAD_PLAYER_STATE"
