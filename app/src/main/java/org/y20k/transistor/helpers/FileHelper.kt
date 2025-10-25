@@ -43,6 +43,7 @@ import java.io.OutputStream
 import java.net.URL
 import java.text.NumberFormat
 import java.util.Date
+import java.util.GregorianCalendar
 import java.util.Locale
 import kotlin.math.ln
 import kotlin.math.pow
@@ -190,26 +191,28 @@ object FileHelper {
 
     /* Creates and save a scaled version of the station image */
     fun saveStationImage(context: Context, station: Station, sourceImageUri: String, size: Int, fileName: String): Uri {
-        val file: File = File(context.getExternalFilesDir(determineDestinationFolderPath(Keys.FILE_TYPE_IMAGE, station.uuid)), fileName)
+        val stationImageFile: File = File(context.getExternalFilesDir(determineDestinationFolderPath(Keys.FILE_TYPE_IMAGE, station.uuid)), fileName)
+        val timestamp = GregorianCalendar.getInstance().time.time
         // load and scale the image
         try {
-            val stationImageFile = File(station.image.toUri().path ?: "")
             val bitmap = Glide.with(context)
                 .asBitmap()
                 .load(sourceImageUri)
-                .signature(ObjectKey(stationImageFile.length()))
+                .signature(ObjectKey(timestamp))
                 .override(size, size)
                 .centerCrop()
                 .error(R.drawable.ic_default_station_image_64dp)
                 .submit()
                 .get() // this blocks until the image is loaded - use only on background thread
-            writeImageFile(bitmap, file, Bitmap.CompressFormat.JPEG, quality = 75)
+            writeImageFile(bitmap, stationImageFile, Bitmap.CompressFormat.JPEG, quality = 75)
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to load cover with Glide, falling back to default", e)
+            Log.e(TAG, "Failed to load station image with Glide, falling back to default", e)
             val defaultBitmap = ContextCompat.getDrawable(context, R.drawable.ic_default_station_image_64dp)!!.toBitmap(size, size)
-            writeImageFile(defaultBitmap, file, Bitmap.CompressFormat.JPEG, quality = 75)
+            writeImageFile(defaultBitmap, stationImageFile, Bitmap.CompressFormat.JPEG, quality = 75)
         }
-        return file.toUri()
+        // manually set the last modified timestamp for the Glide signature cache tag
+        stationImageFile.setLastModified(timestamp)
+        return stationImageFile.toUri()
     }
 
 

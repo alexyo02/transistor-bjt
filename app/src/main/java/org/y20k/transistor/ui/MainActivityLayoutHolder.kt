@@ -183,7 +183,7 @@ data class MainActivityLayoutHolder (var rootView: View) : MainFragmentLayoutHol
         val stationImageFile = File(station.image.toUri().path ?: "")
         Glide.with(context)
             .load(station.image)
-            .signature(ObjectKey(stationImageFile.length()))
+            .signature(ObjectKey(stationImageFile.lastModified()))
             .error(R.drawable.ic_default_station_image_64dp)
             .into(stationImageView)
         if (station.imageColor != -1) {

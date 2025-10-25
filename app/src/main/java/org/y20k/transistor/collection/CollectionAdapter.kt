@@ -292,7 +292,7 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
         val stationImageFile = File(station.image.toUri().path ?: "")
         Glide.with(context)
             .load(station.image)
-            .signature(ObjectKey(stationImageFile.length()))
+            .signature(ObjectKey(stationImageFile.lastModified()))
             .placeholder(R.drawable.ic_default_station_image_64dp)
             .error(R.drawable.ic_default_station_image_64dp)
             .into(stationViewHolder.stationImageView)
