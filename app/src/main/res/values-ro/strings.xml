@@ -107,4 +107,11 @@
     <string name="pref_tap_anywhere_playback_summary_enabled">Atinge oriunde pe cardul unui post de radio pentru a începe să îl asculți.</string>
     <string name="descr_back_icon">Navighează înapoi</string>
     <string name="notification_cancel">Anulează</string>
+    <string name="pref_dynamic_colors_summary_enabled">Utilizarea culorilor de accent de sistem pentru elementele IU.</string>
+    <string name="pref_dynamic_colors_summary_disabled">Utilizarea culorilor implicite ale aplicației pentru elementele IU.</string>
+    <string name="pref_dynamic_colors_title">Culori dinamice</string>
+    <string name="pref_user_interface_transparency_effect_summary_enabled">Comenzile de redare devin transparente la derulare.</string>
+    <string name="pref_user_interface_transparency_effect_summary_disabled">Comenzile de redare rămân opace în timpul derulării.</string>
+    <string name="pref_user_interface_transparency_effect_title">Efect de transparență a interfeței utilizatorului</string>
+    <string name="descr_expanded_player_streaming_link_icon">Pictogramă notă</string>
 </resources>
