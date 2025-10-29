@@ -533,11 +533,14 @@ abstract class BasePlayerService: MediaLibraryService() {
         object : MediaSource.Factory {
             val defaultHttpDataSourceFactory = DefaultHttpDataSource.Factory() // use the default user agent
             val defaultDataSourceFactory = DefaultDataSource.Factory(this@BasePlayerService, defaultHttpDataSourceFactory)
-            val defaultMediaSourceFactory = DefaultMediaSourceFactory(defaultDataSourceFactory).setLoadErrorHandlingPolicy(loadErrorHandlingPolicy)
+            val defaultMediaSourceFactory = DefaultMediaSourceFactory(defaultDataSourceFactory)
+                .setLoadErrorHandlingPolicy(loadErrorHandlingPolicy)
 
-            val webBrowserHttpDataSourceFactory = DefaultHttpDataSource.Factory().setUserAgent(Keys.WEB_BROWSER_USER_AGENT)
+            val webBrowserHttpDataSourceFactory = DefaultHttpDataSource.Factory()
+                .setUserAgent(Keys.WEB_BROWSER_USER_AGENT)
             val webBrowserCaseDataSourceFactory = DefaultDataSource.Factory(this@BasePlayerService, webBrowserHttpDataSourceFactory)
-            val webBrowserMediaSourceFactory = DefaultMediaSourceFactory(webBrowserCaseDataSourceFactory).setLoadErrorHandlingPolicy(loadErrorHandlingPolicy)
+            val webBrowserMediaSourceFactory = DefaultMediaSourceFactory(webBrowserCaseDataSourceFactory)
+                .setLoadErrorHandlingPolicy(loadErrorHandlingPolicy)
 
             override fun setDrmSessionManagerProvider(drmSessionManagerProvider: DrmSessionManagerProvider): MediaSource.Factory {
                 defaultMediaSourceFactory.setDrmSessionManagerProvider(drmSessionManagerProvider)
@@ -695,6 +698,11 @@ abstract class BasePlayerService: MediaLibraryService() {
             super.onMediaMetadataChanged(mediaMetadata)
             updateMetadata(AudioHelper.getMetadataString(mediaMetadata))
         }
+
+//        override fun onMetadata(metadata: androidx.media3.common.Metadata) {
+//            super.onMetadata(metadata)
+//            updateMetadata(AudioHelper.getMetadataString(metadata)) // processes ONLY icy metadata
+//        }
     }
     /*
      * End of declaration
@@ -754,7 +762,6 @@ abstract class BasePlayerService: MediaLibraryService() {
     /*
      * End of declaration
      */
-
 
 
     /*
