@@ -105,4 +105,13 @@
     <string name="dialog_restore_collection_replace_existing">Zamijeniti trenutačnu zbirku radijskih stanica radio stanicom iz sigurnosne kopije\?</string>
     <string name="toast_message_error_station_not_found">Stanica nije pronađena.</string>
     <string name="cast_context_error">Dohvaćanje Cast sadržaja nije uspjelo. Aktualiziraj Google Play usluge i ponovo pokreni program.</string>
+    <string name="notification_cancel">Odustani</string>
+    <string name="pref_dynamic_colors_summary_enabled">Koriste se boje isticanja sustava za elemente korisničkog sučelja.</string>
+    <string name="pref_dynamic_colors_summary_disabled">Koriste se zadane boje aplikacije za elemente korisničkog sučelja.</string>
+    <string name="pref_dynamic_colors_title">Dinamičke boje</string>
+    <string name="pref_user_interface_transparency_effect_summary_enabled">Kontrole za reprodukciju postaju prozirne pri klizanju.</string>
+    <string name="pref_user_interface_transparency_effect_summary_disabled">Kontrole za reprodukciju ostaju neprozirne pri klizanju.</string>
+    <string name="pref_user_interface_transparency_effect_title">Efekt prozirnosti korisničkog sučelja</string>
+    <string name="descr_back_icon">Idi natrag</string>
+    <string name="descr_expanded_player_streaming_link_icon">Ikona za bilješke</string>
 </resources>
