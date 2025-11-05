@@ -33,7 +33,7 @@ object Keys {
     const val MINIMUM_TIME_BETWEEN_UPDATES: Long = 180000L  // 3 minutes in milliseconds
     const val SLEEP_TIMER_DURATION: Long = 900000L          // 15 minutes in  milliseconds
     const val SLEEP_TIMER_INTERVAL: Long = 1000L            // 1 second in milliseconds
-    const val RECONNECTION_WAIT_INTERVAL: Long = 500L       // 5 seconds in milliseconds
+    const val RECONNECTION_WAIT_INTERVAL: Long = 5000L      // 5 seconds in milliseconds
     const val DEFAULT_TRANSITION_ANIMATION_DURATION: Long = 100L               // 100 milliseconds
 
     // ranges
