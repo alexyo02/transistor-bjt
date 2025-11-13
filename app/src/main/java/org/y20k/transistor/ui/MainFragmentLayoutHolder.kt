@@ -73,6 +73,9 @@ data class MainFragmentLayoutHolder(var rootView: View) {
         recyclerView.layoutManager = layoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
 
+//        // set initial focus on the station list (focus for keyboard navigation) // todo: remove, this seems not to be necessary
+//        recyclerView.requestFocus()
+
         // add scroll listener to detect when list is being dragged
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
