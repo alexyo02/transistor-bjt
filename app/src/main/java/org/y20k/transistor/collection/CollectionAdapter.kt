@@ -228,7 +228,7 @@ class CollectionAdapter(private val context: Context, private val collectionAdap
         stationViewHolder.saveButton.setOnClickListener {
             val position: Int = stationViewHolder.adapterPosition
             toggleEditViews(position, station.uuid)
-            val streamContent: String = stationViewHolder.saveButton.getTag(R.id.station_stream_content_type) as String
+            val streamContent: String = stationViewHolder.saveButton.getTag(R.id.station_stream_content_type) as? String ?: station.streamContent
             saveStation(station, position, stationViewHolder.stationNameEditView.text.toString(), stationViewHolder.stationUriEditView.text.toString(), streamContent = streamContent)
             UiHelper.hideSoftKeyboard(context, stationViewHolder.stationNameEditView)
         }

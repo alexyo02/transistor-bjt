@@ -12,8 +12,8 @@ android {
         applicationId "org.y20k.transistor"
         minSdkVersion 25
         targetSdkVersion 36
-        versionCode 111
-        versionName "4.3.4"
+        versionCode 112
+        versionName "4.3.5"
         resConfigs "en", "ar", "ast", "bg", "ca", "ckb", "cs", "cy", "de", "el", "eo", "es", "et", "eu", "fi", "fr", "fy", "ga", "gl", "hi", "hr", "hu", "ia", "id", "it", "iw", "ja", "ko", "nb-rNO", "nl", "pl", "pt", "pt-rBR", "ro", "ru", "sk", "sl", "sr", "ta", "tr", "uk", "zh-rCN"
         // languages listed here, should also be listed in /app/src/main/res/xml/locales_config.xml
     }
