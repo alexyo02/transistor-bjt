@@ -28,11 +28,18 @@ import org.y20k.transistor.R
 
 private val TAG: String = "MediaControllerExt"
 
-/* Starts the sleep timer */
+/* Starts the sleep timer (Default 15 min logic) */
 fun MediaController.startSleepTimer() {
     sendCustomCommand(SessionCommand(Keys.CMD_START_SLEEP_TIMER, Bundle.EMPTY), Bundle.EMPTY)
 }
 
+/* * Starts the sleep timer with a SPECIFIC duration
+ * Usage: mediaController.startSleepTimer(30 * 60 * 1000L)
+ */
+fun MediaController.startSleepTimer(durationInMillis: Long) {
+    val args = bundleOf(Keys.EXTRA_SLEEP_TIMER_DURATION to durationInMillis)
+    sendCustomCommand(SessionCommand(Keys.CMD_START_SLEEP_TIMER, Bundle.EMPTY), args)
+}
 
 /* Cancels the sleep timer */
 fun MediaController.cancelSleepTimer() {
@@ -52,7 +59,7 @@ fun MediaController.requestSleepTimerRemaining(): ListenableFuture<SessionResult
 }
 
 
-/* Request sleep timer remaining */
+/* Request metadata history */
 fun MediaController.requestMetadataHistory(): ListenableFuture<SessionResult> {
     return sendCustomCommand(SessionCommand(Keys.CMD_REQUEST_METADATA_HISTORY, Bundle.EMPTY), Bundle.EMPTY)
 }

@@ -205,35 +205,41 @@ abstract class BasePlayerService: MediaLibraryService() {
 
 
 
-    /* Starts sleep timer / adds default duration to running sleeptimer */
-    private fun startSleepTimer(continueWithPreviousTimerDuration: Boolean) {
-        // stop running timer
-        if (sleepTimerTimeRemaining > 0L && this::sleepTimer.isInitialized) {
-            handler.removeCallbacksAndMessages(null)
+    /* Starts sleep timer with specific duration or resumes existing one */
+    private fun startSleepTimer(continueWithPreviousTimerDuration: Boolean, specificDuration: Long? = null) {
+        // 1. Cancella sempre il timer precedente se esiste
+        if (this::sleepTimer.isInitialized) {
             sleepTimer.cancel()
         }
-        // initialize timer
-        val duration: Long
-        if (continueWithPreviousTimerDuration) {
-            duration = sleepTimerTimeRemaining
+        handler.removeCallbacksAndMessages(null)
+
+        // 2. Calcola la durata pulita
+        val duration: Long = if (continueWithPreviousTimerDuration) {
+            // Caso A: Riprendi dal punto in cui si era interrotto (pausa/play)
+            sleepTimerTimeRemaining
         } else {
-            duration = Keys.SLEEP_TIMER_DURATION + sleepTimerTimeRemaining
+            // Caso B: Imposta un NUOVO timer (es. 30 min).
+            // Se per errore arriva null, usa un default di 15 min (senza sommare nulla!)
+            specificDuration ?: Keys.SLEEP_TIMER_DURATION
         }
+
+        // 3. Controllo di sicurezza
+        if (duration <= 0) return
+
+        // 4. Avvia il timer
         sleepTimer = object: CountDownTimer(duration, Keys.SLEEP_TIMER_INTERVAL) {
             override fun onFinish() {
                 Log.v(TAG, "Sleep timer finished. Sweet dreams.")
                 sleepTimerTimeRemaining = 0L
                 sleepTimerRunning = false
-                player.pause() // todo may use player.stop() here
+                player.pause()
             }
             override fun onTick(millisUntilFinished: Long) {
                 sleepTimerRunning = true
                 sleepTimerTimeRemaining = millisUntilFinished
             }
         }
-        // start timer
         sleepTimer.start()
-        // store timer state
         PreferencesHelper.saveSleepTimerRunning(isRunning = true)
     }
 
@@ -385,7 +391,16 @@ abstract class BasePlayerService: MediaLibraryService() {
         override fun onCustomCommand(session: MediaSession, controller: MediaSession.ControllerInfo, customCommand: SessionCommand, args: Bundle): ListenableFuture<SessionResult> {
             when (customCommand.customAction) {
                 Keys.CMD_START_SLEEP_TIMER -> {
-                    startSleepTimer(continueWithPreviousTimerDuration = false)
+                    // Prendi il valore dal pacchetto. Se non c'è, restituisce -1
+                    val duration = args.getLong(Keys.EXTRA_SLEEP_TIMER_DURATION, -1L)
+
+                    if (duration != -1L) {
+                        // Avvia timer NUOVO con durata specifica
+                        startSleepTimer(continueWithPreviousTimerDuration = false, specificDuration = duration)
+                    } else {
+                        // Fallback (non dovrebbe succedere se usi il dialog, ma per sicurezza avvia default)
+                        startSleepTimer(continueWithPreviousTimerDuration = false)
+                    }
                 }
                 Keys.CMD_CANCEL_SLEEP_TIMER -> {
                     cancelSleepTimer(delayedReset = false)

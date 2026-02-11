@@ -25,9 +25,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionResult
 import androidx.media3.session.SessionToken
@@ -207,6 +209,7 @@ abstract class BaseMainActivity : AppCompatActivity(), SharedPreferences.OnShare
 
 
     /* Initializes the MediaController - handles connection to PlayerService under the hood */
+    @OptIn(UnstableApi::class)
     private fun initializeController() {
         controllerFuture = MediaController.Builder(this, SessionToken(this, ComponentName(this, PlayerService::class.java))).buildAsync()
         controllerFuture.addListener({ setupController() }, MoreExecutors.directExecutor())
@@ -242,14 +245,38 @@ abstract class BaseMainActivity : AppCompatActivity(), SharedPreferences.OnShare
 
         // set up sleep timer start button
         layout.playerSleepTimerStartButtonView.setOnClickListener {
-            when (controller?.isPlaying) {
-                true -> {
-                    playerState.sleepTimerRunning = true
-                    controller?.startSleepTimer()
-                    togglePeriodicSleepTimerUpdateRequest()
-                }
+            if (controller?.isPlaying == true) {
+                // 1. Definisci le opzioni e i tempi corrispondenti (in millisecondi)
+                val options = arrayOf("15 min", "30 min", "45 min", "60 min", "90 min")
+                val durations = longArrayOf(
+                    15 * 60 * 1000L,
+                    30 * 60 * 1000L,
+                    45 * 60 * 1000L,
+                    60 * 60 * 1000L,
+                    90 * 60 * 1000L
+                )
 
-                else -> Toast.makeText(
+                // 2. Mostra il Dialog per la scelta
+                androidx.appcompat.app.AlertDialog.Builder(this).apply {
+                    setTitle("Imposta Sleep Timer") // Puoi usare R.string.qualcosa se ce l'hai
+                    setItems(options) { _, which ->
+                        // 3. L'utente ha scelto una durata
+                        val selectedDuration = durations[which]
+
+                        playerState.sleepTimerRunning = true
+
+                        // Chiama la TUA NUOVA estensione con la durata specifica
+                        controller?.startSleepTimer(selectedDuration)
+
+                        togglePeriodicSleepTimerUpdateRequest()
+
+                        Toast.makeText(context, "Timer impostato: ${options[which]}", Toast.LENGTH_SHORT).show()
+                    }
+                    setNegativeButton("Annulla", null)
+                    show()
+                }
+            } else {
+                Toast.makeText(
                     this,
                     R.string.toast_message_sleep_timer_unable_to_start,
                     Toast.LENGTH_LONG
