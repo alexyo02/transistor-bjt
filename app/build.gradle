@@ -1,20 +1,20 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-parcelize'
-
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+}
 
 android {
-
     namespace 'org.y20k.transistor'
+    compileSdk 36
 
     defaultConfig {
-        compileSdk 36
         applicationId "org.y20k.transistor"
         minSdkVersion 25
         targetSdkVersion 36
         versionCode 112
         versionName "4.3.5"
-        resConfigs "en", "ar", "ast", "bg", "ca", "ckb", "cs", "cy", "de", "el", "eo", "es", "et", "eu", "fi", "fr", "fy", "ga", "gl", "hi", "hr", "hu", "ia", "id", "it", "iw", "ja", "ko", "nb-rNO", "nl", "pl", "pt", "pt-rBR", "ro", "ru", "sk", "sl", "sr", "ta", "tr", "uk", "zh-rCN"
+        resourceConfigurations += ['en', 'ar', 'ast', 'bg', 'ca', 'ckb', 'cs', 'cy', 'de', 'el', 'eo', 'es', 'et', 'eu', 'fi', 'fr', 'fy', 'ga', 'gl', 'hi', 'hr', 'hu', 'ia', 'id', 'it', 'iw', 'ja', 'ko', 'nb-rNO', 'nl', 'pl', 'pt', 'pt-rBR', 'ro', 'ru', 'sk', 'sl', 'sr', 'ta', 'tr', 'uk', 'zh-rCN']
         // languages listed here, should also be listed in /app/src/main/res/xml/locales_config.xml
     }
 
@@ -82,27 +82,27 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 
-    implementation "com.google.android.material:material:1.14.0-alpha06"
+    implementation "com.google.android.material:material:1.14.0-alpha09"
 
-    implementation "androidx.activity:activity-ktx:1.11.0"
+    implementation "androidx.activity:activity-ktx:1.12.3"
     implementation "androidx.appcompat:appcompat:1.7.1"
     implementation "androidx.constraintlayout:constraintlayout:2.2.1"
     implementation "androidx.core:core-ktx:1.17.0"
     implementation "androidx.palette:palette-ktx:1.0.0"
     implementation "androidx.preference:preference-ktx:1.2.1"
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
     implementation "androidx.media:media:1.7.1"
 
-    def mediaVersion = "1.8.0"
+    def mediaVersion = "1.9.2"
     implementation "androidx.media3:media3-exoplayer:$mediaVersion"
     implementation "androidx.media3:media3-exoplayer-hls:$mediaVersion"
     implementation "androidx.media3:media3-session:$mediaVersion"
 
-    def navigationVersion = "2.9.6"
+    def navigationVersion = "2.9.7"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
-    implementation 'androidx.work:work-runtime-ktx:2.11.0'
+    implementation 'androidx.work:work-runtime-ktx:2.11.1'
 
     implementation "com.google.code.gson:gson:2.13.2"
     implementation 'com.android.volley:volley:1.2.1'

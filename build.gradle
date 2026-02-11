@@ -2,8 +2,8 @@
 
 buildscript {
     ext {
-        kotlinVersion = '2.2.0'
-        gradlePluginVersion = '8.11.1'
+        kotlinVersion = '2.2.10'
+        gradlePluginVersion = '8.13.2'
         // gradlePluginVersion needs to stay on '8.11.1', see => https://gitlab.com/fdroid/admin/-/issues/593 // todo revisit in 2026
         kspVersion = '2.2.0-2.0.2'
     }
